@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="theme-color" content="#050d1a"/>
+<meta name="description" content="CyberShield NG — Nigeria's Financial Cybersecurity Awareness & Fraud Reporting Platform"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<title>CyberShield NG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#050d1a;--bg2:#0a1628;--bg3:#0f1f36;--bg4:#162740;
+  --blue:#1a6cff;--blue2:#0d4fd4;--blue-dim:#0a2a6e;
+  --red:#ff3b3b;--red-dim:#5a0a0a;
+  --amber:#ffb020;--amber-dim:#4a2e00;
+  --green:#00d97e;--green-dim:#003d22;
+  --text:#e8f0fe;--text2:#8ca3c8;--text3:#4a6080;
+  --border:#1a2f50;--border2:#243d60;
+  --font-head:'Space Mono',monospace;
+  --font-body:'DM Sans',sans-serif;
+  --radius:10px;--radius-lg:16px;
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --transition:0.2s ease;
+}
+.light-mode{
+  --bg:#f0f4ff;--bg2:#fff;--bg3:#e8eef8;--bg4:#dce6f5;
+  --text:#0a1628;--text2:#3a5070;--text3:#8ca3c8;
+  --border:#d0daf0;--border2:#b8c8e8;
+  --blue-dim:#dce8ff;--red-dim:#ffe0e0;--amber-dim:#fff3d0;--green-dim:#d0fff0;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:34px;height:34px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.logo-name{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);letter-spacing:-0.5px}
+.logo-tag{font-size:10px;color:var(--text2);margin-top:-2px}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.icon-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);font-size:16px}
+.icon-btn:hover{background:var(--bg3);color:var(--text)}
+.live-badge{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:var(--green-dim);padding:4px 10px;border-radius:20px;font-family:var(--font-head)}
+.dot-live{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg2);border-top:1px solid var(--border);display:flex;padding:6px 0 max(6px, env(safe-area-inset-bottom));display:none}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;cursor:pointer;border:none;background:transparent;color:var(--text3);font-family:var(--font-body);font-size:10px;transition:var(--transition)}
+.bnav-btn.active{color:var(--blue)}
+.bnav-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* DESKTOP NAV */
+.desktop-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.desktop-nav::-webkit-scrollbar{display:none}
+.dnav-btn{padding:10px 16px;font-size:13px;color:var(--text2);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;white-space:nowrap;font-family:var(--font-body);transition:var(--transition)}
+.dnav-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.dnav-btn:hover{color:var(--text)}
+
+/* SEARCH BAR */
+.search-bar{padding:14px 20px;background:var(--bg2);border-bottom:1px solid var(--border);display:none}
+.search-bar.open{display:block}
+.search-wrap{display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:0 14px}
+.search-wrap svg{width:16px;height:16px;fill:none;stroke:var(--text3);stroke-width:2;flex-shrink:0}
+.search-input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-body);font-size:14px;padding:10px 0}
+.search-input::placeholder{color:var(--text3)}
+
+/* MAIN */
+.main{display:none;padding:20px;padding-bottom:80px;max-width:1100px;margin:0 auto;animation:fadeIn 0.2s ease}
+.main.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* AUTH MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:380px;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.modal-title{font-family:var(--font-head);font-size:18px;color:var(--text);margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
+.tab-switch{display:flex;background:var(--bg3);border-radius:8px;padding:3px;gap:2px;margin-bottom:20px}
+.tab-sw-btn{flex:1;padding:7px;font-size:13px;border:none;background:transparent;color:var(--text2);border-radius:6px;cursor:pointer;font-family:var(--font-body);transition:var(--transition)}
+.tab-sw-btn.active{background:var(--blue);color:#fff}
+.form-auth{display:none}.form-auth.active{display:block}
+.inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;margin-bottom:12px;transition:var(--transition)}
+.inp:focus{border-color:var(--blue)}
+.btn-primary{width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:var(--transition)}
+.btn-primary:hover{background:var(--blue2)}
+.auth-note{font-size:11px;color:var(--text3);text-align:center;margin-top:12px}
+.user-bar{display:flex;align-items:center;gap:8px;padding:12px 20px;background:var(--green-dim);border-bottom:1px solid var(--border)}
+.user-bar-text{font-size:13px;color:var(--green)}
+.user-bar-name{font-weight:600}
+.logout-btn{margin-left:auto;font-size:12px;color:var(--text2);cursor:pointer;background:none;border:none;font-family:var(--font-body)}
+
+/* CARDS & SECTIONS */
+.section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-family:var(--font-head);font-size:13px;color:var(--text);letter-spacing:0.02em}
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;font-family:var(--font-head)}
+.badge-red{background:var(--red-dim);color:var(--red)}
+.badge-amber{background:var(--amber-dim);color:var(--amber)}
+.badge-blue{background:var(--blue-dim);color:var(--blue)}
+.badge-green{background:var(--green-dim);color:var(--green)}
+
+/* STAT GRID */
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media(max-width:700px){.grid4{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px}
+.stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:var(--font-head)}
+.stat-val{font-size:22px;font-weight:600;color:var(--text);font-family:var(--font-head)}
+.stat-ch{font-size:11px;margin-top:4px}
+.red{color:var(--red)}.green{color:var(--green)}.amber{color:var(--amber)}
+
+/* THREAT BANNER */
+.threat-banner{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--red-dim);border:1px solid #5a1010;border-radius:var(--radius);margin-bottom:16px}
+.threat-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.threat-text{font-size:13px;color:#ffb3b3;line-height:1.5}
+
+/* ALERT ROWS */
+.alert-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:var(--transition)}
+.alert-row:last-child{border-bottom:none;padding-bottom:0}
+.alert-row:first-child{padding-top:0}
+.alert-row:hover{opacity:0.8}
+.alert-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.ico-red{background:var(--red-dim)}
+.ico-amber{background:var(--amber-dim)}
+.ico-blue{background:var(--blue-dim)}
+.ico-green{background:var(--green-dim)}
+.alert-title{font-size:13px;color:var(--text);margin-bottom:2px;font-weight:500}
+.alert-meta{font-size:11px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap}
+.alert-meta span{display:flex;align-items:center;gap:3px}
+.share-btn{margin-left:auto;flex-shrink:0;background:var(--green-dim);border:none;border-radius:6px;padding:5px 10px;font-size:11px;color:var(--green);cursor:pointer;font-family:var(--font-body);white-space:nowrap;transition:var(--transition)}
+.share-btn:hover{opacity:0.8}
+
+/* BARS */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-lbl{font-size:12px;color:var(--text2);width:130px;flex-shrink:0}
+.bar-track{flex:1;background:var(--bg3);border-radius:4px;height:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.8s ease}
+.bar-val{font-size:12px;color:var(--text3);width:40px;text-align:right;flex-shrink:0;font-family:var(--font-head)}
+
+/* GRID 2 */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+
+/* FORM */
+.form-group{margin-bottom:14px}
+.form-lbl{font-size:12px;color:var(--text2);margin-bottom:6px;display:block;font-weight:500}
+.form-inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:var(--transition)}
+.form-inp:focus{border-color:var(--blue)}
+.form-select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;cursor:pointer}
+.form-textarea{resize:vertical;min-height:100px}
+.submit-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:var(--transition);margin-top:4px}
+.submit-btn:hover{background:var(--blue2)}
+.success-box{background:var(--green-dim);border:1px solid #0a6040;border-radius:8px;padding:14px;color:var(--green);font-size:13px;display:none;margin-top:12px;line-height:1.6}
+.login-gate{background:var(--blue-dim);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;text-align:center;margin-bottom:16px}
+.login-gate p{font-size:13px;color:var(--text2);margin-bottom:10px}
+.login-gate button{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;cursor:pointer;font-family:var(--font-body);font-weight:500}
+
+/* TIPS */
+.tip-card{background:var(--bg3);border-radius:var(--radius);padding:13px 15px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;border:1px solid var(--border)}
+.tip-num{width:26px;height:26px;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;font-family:var(--font-head)}
+.tip-text{font-size:13px;color:var(--text2);line-height:1.55}
+.tip-text strong{color:var(--text)}
+
+/* REPORT LIST */
+.rpt-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.rpt-row:last-child{border-bottom:none}
+.rpt-row span:first-child{color:var(--text2)}
+.rpt-row span:last-child{color:var(--blue);font-family:var(--font-head);font-size:12px}
+
+/* SUPPORT */
+.support-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+.sup-ico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sup-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.sup-sub{font-size:11px;color:var(--text3)}
+.sup-link{margin-left:auto;flex-shrink:0;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--blue);cursor:pointer;text-decoration:none;font-family:var(--font-head)}
+.chat-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-top:8px}
+.chat-msgs{min-height:80px;max-height:200px;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:8px}
+.chat-msg{padding:9px 13px;border-radius:10px;font-size:13px;max-width:80%;line-height:1.5}
+.chat-msg.bot{background:var(--bg4);color:var(--text);align-self:flex-start}
+.chat-msg.user{background:var(--blue);color:#fff;align-self:flex-end}
+.chat-row{display:flex;gap:8px}
+.chat-input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 13px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none}
+.chat-send{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:13px;cursor:pointer;font-family:var(--font-body);white-space:nowrap}
+
+/* NO RESULTS */
+.no-results{text-align:center;padding:30px 20px;color:var(--text3);font-size:13px}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+@media(max-width:640px){
+  .bottom-nav{display:flex}
+  .desktop-nav{display:none}
+  .main{padding:14px;padding-bottom:90px}
+  .topbar{padding:0 14px}
+  .live-badge span:not(.dot-live){display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuth()">✕</button>
+    <div class="modal-title">CyberShield NG</div>
+    <div class="modal-sub">Join Nigeria's cybersecurity network</div>
+    <div class="tab-switch">
+      <button class="tab-sw-btn active" onclick="switchAuth('login',this)">Sign In</button>
+      <button class="tab-sw-btn" onclick="switchAuth('register',this)">Register</button>
+    </div>
+    <div class="form-auth active" id="form-login">
+      <input class="inp" type="email" placeholder="Email address" id="login-email"/>
+      <input class="inp" type="password" placeholder="Password" id="login-pwd"/>
+      <button class="btn-primary" onclick="doLogin()">Sign In</button>
+      <p class="auth-note">Demo: use any email & password</p>
+    </div>
+    <div class="form-auth" id="form-register">
+      <input class="inp" type="text" placeholder="Full name" id="reg-name"/>
+      <input class="inp" type="email" placeholder="Email address" id="reg-email"/>
+      <input class="inp" type="password" placeholder="Create password (min 6 chars)" id="reg-pwd"/>
+      <button class="btn-primary" onclick="doRegister()">Create Account</button>
+      <p class="auth-note">Your information is kept strictly confidential</p>
+    </div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a class="logo" href="#">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.25C17.25 23.15 21 18.25 21 13V7L12 2z"/></svg>
+    </div>
+    <div>
+      <div class="logo-name">CyberShield NG</div>
+      <div class="logo-tag">Financial Cybersecurity Platform</div>
+    </div>
+  </a>
+  <div class="topbar-right">
+    <div class="live-badge"><span class="dot-live"></span><span>LIVE</span></div>
+    <button class="icon-btn" onclick="toggleSearch()" title="Search">🔍</button>
+    <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
+    <button class="icon-btn" onclick="openAuth()" id="loginBtn" title="Login">👤</button>
+  </div>
+</div>
+
+<!-- USER BAR -->
+<div class="user-bar" id="userBar" style="display:none">
+  <div class="user-bar-text">Welcome back, <span class="user-bar-name" id="userNameDisplay"></span> — stay safe online.</div>
+  <button class="logout-btn" onclick="doLogout()">Sign out</button>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-bar" id="searchBar">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search alerts, threats, institutions..." oninput="doSearch(this.value)"/>
+  </div>
+</div>
+
+<!-- DESKTOP NAV -->
+<div class="desktop-nav" id="desktopNav">
+  <button class="dnav-btn active" onclick="showTab('dashboard',this,'dn')">Dashboard</button>
+  <button class="dnav-btn" onclick="showTab('alerts',this,'dn')">Threat Alerts</button>
+  <button class="dnav-btn" onclick="showTab('report',this,'dn')">Report Fraud</button>
+  <button class="dnav-btn" onclick="showTab('awareness',this,'dn')">Awareness</button>
+  <button class="dnav-btn" onclick="showTab('stats',this,'dn')">Statistics</button>
+  <button class="dnav-btn" onclick="showTab('support',this,'dn')">Support</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="main active">
+  <div class="grid4">
+    <div class="stat-card"><div class="stat-lbl">Active Threats</div><div class="stat-val">47</div><div class="stat-ch red">▲ 12 this week</div></div>
+    <div class="stat-card"><div class="stat-lbl">Reports Today</div><div class="stat-val">183</div><div class="stat-ch red">▲ 8% vs yesterday</div></div>
+    <div class="stat-card"><div class="stat-lbl">Institutions Alerted</div><div class="stat-val">29</div><div class="stat-ch green">✓ All notified</div></div>
+    <div class="stat-card"><div class="stat-lbl">Fraud Prevented (₦)</div><div class="stat-val">₦2.1B</div><div class="stat-ch green">This month</div></div>
+  </div>
+  <div class="threat-banner">
+    <div class="threat-icon">⚠️</div>
+    <div class="threat-text"><strong>NATIONAL THREAT LEVEL: HIGH</strong> — Coordinated phishing campaigns targeting mobile banking users detected across Lagos, Kano, Abuja, Rivers, Kaduna and Ogun states. All institutions have been notified via the CBN cybersecurity portal.</div>
+  </div>
+  <div class="grid2">
+    <div class="section">
+      <div class="sec-hdr"><span class="sec-title">// RECENT ALERTS</span><span class="badge badge-red">3 Critical</span></div>
+      <div class="alert-row" onclick="showTab('alerts',null,'go')">
+        <div class="alert-ico ico-red">🛡️</div>
+        <div style="flex:1"><div class="alert-title">Ransomware targeting deposit money banks</div><div class="alert-meta"><span>2h ago</span><span>Lagos</span><span class="badge badge-red">Critical</span></div></div>
+      </div>
+      <div class="alert-row" onclick="showTab('alerts',null,'go')">
+        <div class="alert-ico ico-amber">🎣</div>
+        <div style="flex:1"><div class="alert-title">Phishing kit mimicking GTBank login</div><div class="alert-meta"><span>5h ago</span><span>Abuja</span><span class="badge badge-amber">High</span></div></div>
+      </div>
+      <div class="alert-row" onclick="showTab('alerts',null,'go')">
+        <div class="alert-ico ico-blue">📡</div>
+        <div style="flex:1"><div class="alert-title">Unusual API access on MFB cluster</div><div class="alert-meta"><span>1d ago</span><span>Kano</span><span class="badge badge-blue">Medium</span></div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-hdr"><span class="sec-title">// ATTACK VECTORS</span></div>
+      <div class="bar-row"><span class="bar-lbl">Phishing</span><div class="bar-track"><div class="bar-fill" style="width:78%;background:#1a6cff"></div></div><span class="bar-val">78%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Insider Threat</span><div class="bar-track"><div class="bar-fill" style="width:54%;background:#7c3aed"></div></div><span class="bar-val">54%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Ransomware</span><div class="bar-track"><div class="bar-fill" style="width:41%;background:#ff3b3b"></div></div><span class="bar-val">41%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Account Takeover</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:#ffb020"></div></div><span class="bar-val">33%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Social Engineering</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:#00d97e"></div></div><span class="bar-val">22%</span></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="sec-hdr"><span class="sec-title">// FRAUD BY INSTITUTION TYPE</span></div>
+    <div class="rpt-row"><span>Deposit Money Banks (DMBs)</span><span>1,204 reports</span></div>
+    <div class="rpt-row"><span>Fintech / Payment Platforms</span><span>892 reports</span></div>
+    <div class="rpt-row"><span>Microfinance Banks (MFBs)</span><span>387 reports</span></div>
+    <div class="rpt-row"><span>Insurance Companies</span><span>143 reports</span></div>
+    <div class="rpt-row"><span>Capital Market Operators</span><span>96 reports</span></div>
+  </div>
+</div>
+
+<!-- THREAT ALERTS -->
+<div id="alerts" class="main">
+  <div id="searchResults" style="display:none"></div>
+  <div id="alertsList">
+    <div class="section">
+      <div class="sec-hdr"><span class="sec-title">// LIVE THREAT FEED</span><span class="badge badge-red">Updated now</span></div>
+      <div class="alert-row">
+        <div class="alert-ico ico-red">🛡️</div>
+        <div style="flex:1"><div class="alert-title">Ransomware campaign targeting deposit money banks in Lagos and Ogun State</div><div class="alert-meta"><span>Mar 21, 2026</span><span>Lagos · Ogun</span><span class="badge badge-red">Critical</span></div></div>
+        <button class="share-btn" onclick="shareAlert('Ransomware campaign targeting Nigerian banks — Stay alert! via CyberShield NG')">Share 📲</button>
+      </div>
+      <div class="alert-row">
+        <div class="alert-ico ico-amber">🎣</div>
+        <div style="flex:1"><div class="alert-title">Spoofed GTBank login page circulating via WhatsApp in FCT and Kano</div><div class="alert-meta"><span>Mar 21, 2026</span><span>Abuja · Kano</span><span class="badge badge-amber">High</span></div></div>
+        <button class="share-btn" onclick="shareAlert('Fake GTBank login page spreading on WhatsApp! Do not click links. via CyberShield NG')">Share 📲</button>
+      </div>
+      <div class="alert-row">
+        <div class="alert-ico ico-amber">📱</div>
+        <div style="flex:1"><div class="alert-title">BVN harvesting scam via fake NIN update SMS messages targeting all states</div><div class="alert-meta"><span>Mar 20, 2026</span><span>Nationwide</span><span class="badge badge-amber">High</span></div></div>
+        <button class="share-btn" onclick="shareAlert('BVN scam via fake NIN update SMS! Do not respond. via CyberShield NG')">Share 📲</button>
+      </div>
+      <div class="alert-row">
+        <div class="alert-ico ico-blue">📡</div>
+        <div style="flex:1"><div class="alert-title">Unusual after-hours API traffic on two microfinance bank clusters — under investigation</div><div class="alert-meta"><span>Mar 20, 2026</span><span>Rivers · Enugu</span><span class="badge badge-blue">Medium</span></div></div>
+        <button class="share-btn" onclick="shareAlert('MFB API anomaly detected in South-East. Authorities investigating. via CyberShield NG')">Share 📲</button>
+      </div>
+      <div class="alert-row">
+        <div class="alert-ico ico-blue">🔐</div>
+        <div style="flex:1"><div class="alert-title">Credential stuffing attempt on fintech mobile apps — 3 platforms affected, patching underway</div><div class="alert-meta"><span>Mar 19, 2026</span><span>Nationwide</span><span class="badge badge-blue">Medium</span></div></div>
+        <button class="share-btn" onclick="shareAlert('Fintech apps under credential attack. Change your passwords now. via CyberShield NG')">Share 📲</button>
+      </div>
+      <div class="alert-row">
+        <div class="alert-ico ico-green">✅</div>
+        <div style="flex:1"><div class="alert-title">CBN issues new directive: all DMBs must complete cybersecurity framework self-assessment by April 30</div><div class="alert-meta"><span>Mar 18, 2026</span><span>Regulatory</span><span class="badge badge-green">Notice</span></div></div>
+        <button class="share-btn" onclick="shareAlert('CBN directive: DMBs must complete cyber self-assessment by April 30. via CyberShield NG')">Share 📲</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT FRAUD -->
+<div id="report" class="main">
+  <div class="login-gate" id="reportGate" style="display:none">
+    <p>Please sign in to submit a verified fraud report. Anonymous reports are also accepted below.</p>
+    <button onclick="openAuth()">Sign In / Register</button>
+  </div>
+  <div class="section">
+    <div class="sec-hdr"><span class="sec-title">// SUBMIT FRAUD REPORT</span><span class="badge badge-blue">Secure & Confidential</span></div>
+    <div class="grid2">
+      <div>
+        <div class="form-group">
+          <label class="form-lbl">Your name (optional)</label>
+          <input class="form-inp" type="text" placeholder="Anonymous allowed" id="r-name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Institution involved *</label>
+          <input class="form-inp" type="text" placeholder="e.g. First Bank, Opay, Access Bank..." id="r-inst"/>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Incident type *</label>
+          <select class="form-select" id="r-type">
+            <option value="">Select type...</option>
+            <option>Account takeover / unauthorized access</option>
+            <option>Phishing / social engineering</option>
+            <option>Fraudulent transfer</option>
+            <option>Identity theft / BVN fraud</option>
+            <option>Ransomware / malware</option>
+            <option>Insider fraud</option>
+            <option>SIM swap fraud</option>
+            <option>Fake investment scheme</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label class="form-lbl">State of occurrence *</label>
+          <select class="form-select" id="r-state">
+            <option value="">Select state...</option>
+            <option>Lagos</option><option>Abuja (FCT)</option><option>Kano</option>
+            <option>Rivers</option><option>Ogun</option><option>Kaduna</option>
+            <option>Enugu</option><option>Delta</option><option>Anambra</option>
+            <option>Oyo</option><option>Imo</option><option>Kwara</option>
+            <option>Plateau</option><option>Borno</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Date of incident</label>
+          <input class="form-inp" type="date" id="r-date"/>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Estimated amount lost (₦)</label>
+          <input class="form-inp" type="number" placeholder="0 if unknown" id="r-amount"/>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">Describe what happened *</label>
+      <textarea class="form-inp form-textarea" placeholder="Provide as much detail as possible — what happened, how it happened, what steps you have taken..." id="r-desc"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">Your contact (optional — for follow-up)</label>
+      <input class="form-inp" type="text" placeholder="Phone or email" id="r-contact"/>
+    </div>
+    <button class="submit-btn" onclick="submitReport()">🔒 Submit Report Securely</button>
+    <div class="success-box" id="success-box">
+      <strong>✓ Report submitted successfully!</strong><br/>
+      Your reference ID is <strong id="ref-id"></strong>.<br/>
+      Your report has been forwarded to the relevant authorities including the CBN, EFCC, and NIBSS. Thank you for helping protect Nigeria's financial system.<br/><br/>
+      <strong>Emergency contacts:</strong> EFCC Hotline: 08093322644 | CBN Consumer Protection: 07002255226
+    </div>
+  </div>
+</div>
+
+<!-- AWARENESS -->
+<div id="awareness" class="main">
+  <div class="section">
+    <div class="sec-hdr"><span class="sec-title">// CYBERSECURITY SAFETY TIPS</span></div>
+    <div class="tip-card"><div class="tip-num">01</div><div class="tip-text"><strong>Never share your OTP.</strong> No legitimate bank, CBN official, EFCC agent, or police officer will ever ask for your One-Time Password. Hang up or walk away immediately if asked.</div></div>
+    <div class="tip-card"><div class="tip-num">02</div><div class="tip-text"><strong>Verify before you transfer.</strong> Always call back the person requesting a transfer using a number you already know — not a number they provide. Fraudsters impersonate family members and colleagues.</div></div>
+    <div class="tip-card"><div class="tip-num">03</div><div class="tip-text"><strong>Use strong, unique passwords.</strong> Do not use the same password across your banking apps. Enable biometric authentication where available. Change passwords every 3 months.</div></div>
+    <div class="tip-card"><div class="tip-num">04</div><div class="tip-text"><strong>Check URLs carefully.</strong> Always confirm the website address starts with https:// and matches your bank's exact official domain before entering any login credentials.</div></div>
+    <div class="tip-card"><div class="tip-num">05</div><div class="tip-text"><strong>Protect your BVN.</strong> Your Bank Verification Number is not a password — but scammers use it to impersonate you. Never share it publicly, online, or over the phone.</div></div>
+    <div class="tip-card"><div class="tip-num">06</div><div class="tip-text"><strong>Beware of SIM swap fraud.</strong> If your phone suddenly loses signal, contact your network provider immediately. Fraudsters use SIM swaps to bypass two-factor authentication.</div></div>
+    <div class="tip-card"><div class="tip-num">07</div><div class="tip-text"><strong>Report immediately.</strong> If you suspect fraud, call your bank's official helpline right away. Also report to: EFCC — 08093322644 | CBN — 07002255226 | NITDA — report.nitda.gov.ng</div></div>
+    <div class="tip-card"><div class="tip-num">08</div><div class="tip-text"><strong>Update your apps regularly.</strong> App updates often contain critical security patches. Enable automatic updates for all banking and financial applications on your phone.</div></div>
+  </div>
+</div>
+
+<!-- STATISTICS -->
+<div id="stats" class="main">
+  <div class="grid4">
+    <div class="stat-card"><div class="stat-lbl">2023 Fraud Losses</div><div class="stat-val">₦9.5B</div><div class="stat-ch red">NIBSS Annual Report</div></div>
+    <div class="stat-card"><div class="stat-lbl">Cyber Incidents 2024</div><div class="stat-val">6,842</div><div class="stat-ch red">▲ 34% YoY</div></div>
+    <div class="stat-card"><div class="stat-lbl">Institutions Breached</div><div class="stat-val">38</div><div class="stat-ch amber">Reported 2023–24</div></div>
+    <div class="stat-card"><div class="stat-lbl">CBN Sanctions</div><div class="stat-val">₦1.3B</div><div class="stat-ch green">For non-compliance</div></div>
+  </div>
+  <div class="section">
+    <div class="sec-hdr"><span class="sec-title">// FRAUD LOSSES BY YEAR (₦ BILLION)</span></div>
+    <div class="bar-row"><span class="bar-lbl">2020</span><div class="bar-track"><div class="bar-fill" style="width:28%;background:#1a6cff"></div></div><span class="bar-val">₦3.1B</span></div>
+    <div class="bar-row"><span class="bar-lbl">2021</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:#1a6cff"></div></div><span class="bar-val">₦4.3B</span></div>
+    <div class="bar-row"><span class="bar-lbl">2022</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#ffb020"></div></div><span class="bar-val">₦5.8B</span></div>
+    <div class="bar-row"><span class="bar-lbl">2023</span><div class="bar-track"><div class="bar-fill" style="width:78%;background:#ff3b3b"></div></div><span class="bar-val">₦9.5B</span></div>
+    <div class="bar-row"><span class="bar-lbl">2024 (est.)</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:#ff3b3b"></div></div><span class="bar-val">₦11.2B</span></div>
+  </div>
+  <div class="section">
+    <div class="sec-hdr"><span class="sec-title">// CYBERSECURITY COMPLIANCE RATE</span></div>
+    <div class="bar-row"><span class="bar-lbl">Tier-1 Banks</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:#00d97e"></div></div><span class="bar-val">82%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Tier-2 Banks</span><div class="bar-track"><div class="bar-fill" style="width:64%;background:#ffb020"></div></div><span class="bar-val">64%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Fintechs</span><div class="bar-track"><div class="bar-fill" style="width:71%;background:#ffb020"></div></div><span class="bar-val">71%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Microfinance Banks</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:#ff3b3b"></div></div><span class="bar-val">38%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Insurance Cos.</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#ffb020"></div></div><span class="bar-val">55%</span></div>
+  </div>
+  <div class="section">
+    <div class="sec-hdr"><span class="sec-title">// TOP FRAUD CHANNELS 2024</span></div>
+    <div class="bar-row"><span class="bar-lbl">Mobile Banking</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:#1a6cff"></div></div><span class="bar-val">72%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Internet Banking</span><div class="bar-track"><div class="bar-fill" style="width:58%;background:#7c3aed"></div></div><span class="bar-val">58%</span></div>
+    <div class="bar-row"><span class="bar-lbl">ATM / POS</span><div class="bar-track"><div class="bar-fill" style="width:43%;background:#ff3b3b"></div></div><span class="bar-val">43%</span></div>
+    <div class="bar-row"><span class="bar-lbl">USSD / *737#</span><div class="bar-track"><div class="bar-fill" style="width:29%;background:#ffb020"></div></div><span class="bar-val">29%</span></div>
+  </div>
+</div>
+
+<!-- SUPPORT -->
+<div id="support" class="main">
+  <div class="section">
+    <div class="sec-hdr"><span class="sec-title">// EMERGENCY CONTACTS</span></div>
+    <div class="support-card"><div class="sup-ico" style="background:#1a0505">🚨</div><div><div class="sup-title">EFCC Fraud Hotline</div><div class="sup-sub">Economic & Financial Crimes Commission</div></div><a class="sup-link" href="tel:08093322644">Call Now</a></div>
+    <div class="support-card"><div class="sup-ico" style="background:#0a1628">🏦</div><div><div class="sup-title">CBN Consumer Protection</div><div class="sup-sub">Central Bank of Nigeria helpdesk</div></div><a class="sup-link" href="tel:07002255226">Call Now</a></div>
+    <div class="support-card"><div class="sup-ico" style="background:#0a1628">🖥️</div><div><div class="sup-title">NITDA Cyber Reporting</div><div class="sup-sub">Online cyber incident reporting portal</div></div><a class="sup-link" href="https://report.nitda.gov.ng" target="_blank">Visit</a></div>
+    <div class="support-card"><div class="sup-ico" style="background:#03200e">🛡️</div><div><div class="sup-title">NIBSS Fraud Desk</div><div class="sup-sub">Nigeria Inter-Bank Settlement System</div></div><a class="sup-link" href="https://nibss-plc.com.ng" target="_blank">Visit</a></div>
+  </div>
+  <div class="section">
+    <div class="sec-hdr"><span class="sec-title">// LIVE SUPPORT CHAT</span></div>
+    <div class="chat-box">
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="chat-msg bot">👋 Hello! I'm CyberShield NG's support assistant. How can I help you today? You can ask about fraud reporting, cybersecurity tips, or how to contact authorities.</div>
+      </div>
+      <div class="chat-row">
+        <input class="chat-input" id="chatInput" type="text" placeholder="Type your question..." onkeydown="if(event.key==='Enter')sendChat()"/>
+        <button class="chat-send" onclick="sendChat()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV (mobile) -->
+<div class="bottom-nav">
+  <button class="bnav-btn active" onclick="showTab('dashboard',this,'bn')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Home
+  </button>
+  <button class="bnav-btn" onclick="showTab('alerts',this,'bn')">
+    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    Alerts
+  </button>
+  <button class="bnav-btn" onclick="showTab('report',this,'bn')">
+    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Report
+  </button>
+  <button class="bnav-btn" onclick="showTab('awareness',this,'bn')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Tips
+  </button>
+  <button class="bnav-btn" onclick="showTab('support',this,'bn')">
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Support
+  </button>
+</div>
+
+<script>
+var currentUser = null;
+var isLight = false;
+
+function showTab(id, btn, source) {
+  document.querySelectorAll('.main').forEach(function(el){el.classList.remove('active')});
+  document.getElementById(id).classList.add('active');
+  if(source==='dn'){
+    document.querySelectorAll('.dnav-btn').forEach(function(el){el.classList.remove('active')});
+    if(btn) btn.classList.add('active');
+  }
+  if(source==='bn'){
+    document.querySelectorAll('.bnav-btn').forEach(function(el){el.classList.remove('active')});
+    if(btn) btn.classList.add('active');
+  }
+  window.scrollTo(0,0);
+}
+
+function toggleSearch(){
+  var bar = document.getElementById('searchBar');
+  bar.classList.toggle('open');
+  if(bar.classList.contains('open')) document.getElementById('searchInput').focus();
+}
+
+function toggleTheme(){
+  isLight = !isLight;
+  document.body.classList.toggle('light-mode', isLight);
+  document.getElementById('themeBtn').textContent = isLight ? '🌙' : '☀️';
+}
+
+function openAuth(){
+  if(currentUser){return;}
+  document.getElementById('authModal').classList.add('open');
+}
+function closeAuth(){
+  document.getElementById('authModal').classList.remove('open');
+}
+function switchAuth(tab, btn){
+  document.querySelectorAll('.form-auth').forEach(function(f){f.classList.remove('active')});
+  document.querySelectorAll('.tab-sw-btn').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('form-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+function doLogin(){
+  var email = document.getElementById('login-email').value.trim();
+  var pwd = document.getElementById('login-pwd').value;
+  if(!email||!pwd){alert('Please enter your email and password.');return;}
+  var name = email.split('@')[0].replace(/[^a-zA-Z]/g,' ').trim();
+  name = name.charAt(0).toUpperCase()+name.slice(1);
+  setUser(name, email);
+}
+function doRegister(){
+  var name = document.getElementById('reg-name').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var pwd = document.getElementById('reg-pwd').value;
+  if(!name||!email||!pwd){alert('Please fill all fields.');return;}
+  if(pwd.length<6){alert('Password must be at least 6 characters.');return;}
+  setUser(name, email);
+}
+function setUser(name, email){
+  currentUser = {name:name, email:email};
+  document.getElementById('userNameDisplay').textContent = name;
+  document.getElementById('userBar').style.display = 'flex';
+  document.getElementById('loginBtn').textContent = '✓';
+  closeAuth();
+}
+function doLogout(){
+  currentUser = null;
+  document.getElementById('userBar').style.display = 'none';
+  document.getElementById('loginBtn').textContent = '👤';
+}
+
+var allAlerts = [
+  {title:'Ransomware campaign targeting deposit money banks in Lagos and Ogun State', loc:'Lagos · Ogun', sev:'Critical', sevClass:'badge-red', date:'Mar 21, 2026', msg:'Ransomware campaign targeting Nigerian banks — Stay alert! via CyberShield NG', ico:'🛡️', icoC:'ico-red'},
+  {title:'Spoofed GTBank login page circulating via WhatsApp in FCT and Kano', loc:'Abuja · Kano', sev:'High', sevClass:'badge-amber', date:'Mar 21, 2026', msg:'Fake GTBank login page spreading on WhatsApp! Do not click links. via CyberShield NG', ico:'🎣', icoC:'ico-amber'},
+  {title:'BVN harvesting scam via fake NIN update SMS messages targeting all states', loc:'Nationwide', sev:'High', sevClass:'badge-amber', date:'Mar 20, 2026', msg:'BVN scam via fake NIN update SMS! Do not respond. via CyberShield NG', ico:'📱', icoC:'ico-amber'},
+  {title:'Unusual after-hours API traffic on two microfinance bank clusters', loc:'Rivers · Enugu', sev:'Medium', sevClass:'badge-blue', date:'Mar 20, 2026', msg:'MFB API anomaly detected. Authorities investigating. via CyberShield NG', ico:'📡', icoC:'ico-blue'},
+  {title:'Credential stuffing attempt on fintech mobile apps — 3 platforms affected', loc:'Nationwide', sev:'Medium', sevClass:'badge-blue', date:'Mar 19, 2026', msg:'Fintech apps under credential attack. Change your passwords now. via CyberShield NG', ico:'🔐', icoC:'ico-blue'},
+  {title:'CBN directive: all DMBs must complete cybersecurity framework self-assessment by April 30', loc:'Regulatory', sev:'Notice', sevClass:'badge-green', date:'Mar 18, 2026', msg:'CBN directive: DMBs must complete cyber self-assessment by April 30. via CyberShield NG', ico:'✅', icoC:'ico-green'}
+];
+
+function doSearch(q){
+  var sr = document.getElementById('searchResults');
+  var al = document.getElementById('alertsList');
+  if(!q.trim()){sr.style.display='none';al.style.display='block';return;}
+  showTab('alerts',null,'go');
+  al.style.display='none';
+  var filtered = allAlerts.filter(function(a){
+    return a.title.toLowerCase().includes(q.toLowerCase())||a.loc.toLowerCase().includes(q.toLowerCase())||a.sev.toLowerCase().includes(q.toLowerCase());
+  });
+  if(filtered.length===0){sr.innerHTML='<div class="no-results">No alerts found for "'+q+'"</div>';sr.style.display='block';return;}
+  var html='<div class="section"><div class="sec-hdr"><span class="sec-title">// SEARCH RESULTS ('+filtered.length+')</span></div>';
+  filtered.forEach(function(a){
+    html+='<div class="alert-row"><div class="alert-ico '+a.icoC+'">'+a.ico+'</div><div style="flex:1"><div class="alert-title">'+a.title+'</div><div class="alert-meta"><span>'+a.date+'</span><span>'+a.loc+'</span><span class="badge '+a.sevClass+'">'+a.sev+'</span></div></div><button class="share-btn" onclick="shareAlert(\''+a.msg.replace(/'/g,"\\'")+'\')" >Share 📲</button></div>';
+  });
+  html+='</div>';
+  sr.innerHTML=html;sr.style.display='block';
+}
+
+function shareAlert(msg){
+  var url = 'https://wa.me/?text='+encodeURIComponent(msg+'\n\nVisit CyberShield NG to stay protected.');
+  window.open(url,'_blank');
+}
+
+function submitReport(){
+  var inst=document.getElementById('r-inst').value.trim();
+  var type=document.getElementById('r-type').value;
+  var state=document.getElementById('r-state').value;
+  var desc=document.getElementById('r-desc').value.trim();
+  if(!inst||!type||!state||!desc){alert('Please fill in the required fields: Institution, Incident Type, State, and Description.');return;}
+  var ref='CSN-2026-'+Math.floor(Math.random()*90000+10000);
+  document.getElementById('ref-id').textContent=ref;
+  document.getElementById('success-box').style.display='block';
+  ['r-inst','r-desc','r-contact','r-amount'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('r-type').value='';
+  document.getElementById('r-state').value='';
+  window.scrollTo(0,0);
+}
+
+var botReplies = {
+  'report':  'To report fraud, go to the "Report Fraud" tab and fill in the form. Your report is confidential. You can also call EFCC on 08093322644.',
+  'otp': 'Never share your OTP with anyone — not even your bank. Legitimate institutions will never ask for it. Hang up immediately if someone does.',
+  'bvn': 'Your BVN should be kept private. Never share it on social media, with strangers, or over the phone with unverified callers.',
+  'phishing': 'Phishing involves fake emails, SMS, or websites designed to steal your login details. Always verify URLs and never click suspicious links.',
+  'lost': 'If you have lost money to fraud: 1) Call your bank immediately to freeze your account. 2) Report to EFCC: 08093322644. 3) File a report on this platform.',
+  'contact': 'Emergency contacts: EFCC — 08093322644 | CBN — 07002255226 | NITDA — report.nitda.gov.ng',
+  'password': 'Use a unique, strong password for each account. Mix letters, numbers and symbols. Enable two-factor authentication wherever possible.',
+};
+
+function sendChat(){
+  var inp = document.getElementById('chatInput');
+  var msg = inp.value.trim();
+  if(!msg) return;
+  var msgs = document.getElementById('chatMsgs');
+  msgs.innerHTML += '<div class="chat-msg user">'+msg+'</div>';
+  inp.value='';
+  var reply = 'I understand your concern. For urgent cybersecurity issues, please call the EFCC on 08093322644 or use our Report Fraud tab to file a formal report.';
+  var lc = msg.toLowerCase();
+  Object.keys(botReplies).forEach(function(k){if(lc.includes(k)) reply=botReplies[k];});
+  setTimeout(function(){
+    msgs.innerHTML += '<div class="chat-msg bot">'+reply+'</div>';
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 700);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+</script>
+</body>
+</html>
