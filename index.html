@@ -2,681 +2,725 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<meta name="theme-color" content="#050d1a"/>
-<meta name="description" content="CyberShield NG — Nigeria's Financial Cybersecurity Awareness & Fraud Reporting Platform"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="mobile-web-app-capable" content="yes"/>
-<title>CyberShield NG</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CyberShield NG — Admin Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
   --bg:#050d1a;--bg2:#0a1628;--bg3:#0f1f36;--bg4:#162740;
   --blue:#1a6cff;--blue2:#0d4fd4;--blue-dim:#0a2a6e;
-  --red:#ff3b3b;--red-dim:#5a0a0a;
-  --amber:#ffb020;--amber-dim:#4a2e00;
-  --green:#00d97e;--green-dim:#003d22;
+  --red:#ff3b3b;--red-dim:#3a0808;
+  --amber:#ffb020;--amber-dim:#3a2000;
+  --green:#00d97e;--green-dim:#003322;
+  --purple:#a855f7;--purple-dim:#2d1a4a;
   --text:#e8f0fe;--text2:#8ca3c8;--text3:#4a6080;
   --border:#1a2f50;--border2:#243d60;
   --font-head:'Space Mono',monospace;
   --font-body:'DM Sans',sans-serif;
   --radius:10px;--radius-lg:16px;
-  --shadow:0 4px 24px rgba(0,0,0,0.4);
-  --transition:0.2s ease;
 }
-.light-mode{
-  --bg:#f0f4ff;--bg2:#fff;--bg3:#e8eef8;--bg4:#dce6f5;
-  --text:#0a1628;--text2:#3a5070;--text3:#8ca3c8;
-  --border:#d0daf0;--border2:#b8c8e8;
-  --blue-dim:#dce8ff;--red-dim:#ffe0e0;--amber-dim:#fff3d0;--green-dim:#d0fff0;
-}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
 
-/* TOPBAR */
-.topbar{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-icon{width:34px;height:34px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-icon svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.logo-name{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);letter-spacing:-0.5px}
-.logo-tag{font-size:10px;color:var(--text2);margin-top:-2px}
-.topbar-right{display:flex;align-items:center;gap:8px}
-.icon-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);font-size:16px}
-.icon-btn:hover{background:var(--bg3);color:var(--text)}
-.live-badge{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:var(--green-dim);padding:4px 10px;border-radius:20px;font-family:var(--font-head)}
-.dot-live{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-
-/* BOTTOM NAV (mobile) */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg2);border-top:1px solid var(--border);display:flex;padding:6px 0 max(6px, env(safe-area-inset-bottom));display:none}
-.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;cursor:pointer;border:none;background:transparent;color:var(--text3);font-family:var(--font-body);font-size:10px;transition:var(--transition)}
-.bnav-btn.active{color:var(--blue)}
-.bnav-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-
-/* DESKTOP NAV */
-.desktop-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
-.desktop-nav::-webkit-scrollbar{display:none}
-.dnav-btn{padding:10px 16px;font-size:13px;color:var(--text2);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;white-space:nowrap;font-family:var(--font-body);transition:var(--transition)}
-.dnav-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
-.dnav-btn:hover{color:var(--text)}
-
-/* SEARCH BAR */
-.search-bar{padding:14px 20px;background:var(--bg2);border-bottom:1px solid var(--border);display:none}
-.search-bar.open{display:block}
-.search-wrap{display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:0 14px}
-.search-wrap svg{width:16px;height:16px;fill:none;stroke:var(--text3);stroke-width:2;flex-shrink:0}
-.search-input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-body);font-size:14px;padding:10px 0}
-.search-input::placeholder{color:var(--text3)}
-
-/* MAIN */
-.main{display:none;padding:20px;padding-bottom:80px;max-width:1100px;margin:0 auto;animation:fadeIn 0.2s ease}
-.main.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-/* AUTH MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.open{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:380px;position:relative}
-.modal-close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
-.modal-title{font-family:var(--font-head);font-size:18px;color:var(--text);margin-bottom:4px}
-.modal-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
-.tab-switch{display:flex;background:var(--bg3);border-radius:8px;padding:3px;gap:2px;margin-bottom:20px}
-.tab-sw-btn{flex:1;padding:7px;font-size:13px;border:none;background:transparent;color:var(--text2);border-radius:6px;cursor:pointer;font-family:var(--font-body);transition:var(--transition)}
-.tab-sw-btn.active{background:var(--blue);color:#fff}
-.form-auth{display:none}.form-auth.active{display:block}
-.inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;margin-bottom:12px;transition:var(--transition)}
+/* LOGIN SCREEN */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:36px;width:100%;max-width:380px}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.login-icon{width:40px;height:40px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.login-icon svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.login-name{font-family:var(--font-head);font-size:16px;color:var(--text)}
+.login-tag{font-size:11px;color:var(--text3);margin-top:1px}
+.login-title{font-family:var(--font-head);font-size:20px;margin-bottom:6px}
+.login-sub{font-size:13px;color:var(--text2);margin-bottom:24px}
+.inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;margin-bottom:12px;transition:0.2s}
 .inp:focus{border-color:var(--blue)}
-.btn-primary{width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:var(--transition)}
-.btn-primary:hover{background:var(--blue2)}
-.auth-note{font-size:11px;color:var(--text3);text-align:center;margin-top:12px}
-.user-bar{display:flex;align-items:center;gap:8px;padding:12px 20px;background:var(--green-dim);border-bottom:1px solid var(--border)}
-.user-bar-text{font-size:13px;color:var(--green)}
-.user-bar-name{font-weight:600}
-.logout-btn{margin-left:auto;font-size:12px;color:var(--text2);cursor:pointer;background:none;border:none;font-family:var(--font-body)}
+.btn-login{width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:0.2s}
+.btn-login:hover{background:var(--blue2)}
+.login-hint{font-size:11px;color:var(--text3);text-align:center;margin-top:12px}
+.login-err{background:var(--red-dim);border:1px solid #5a1010;border-radius:8px;padding:10px 14px;color:var(--red);font-size:13px;margin-bottom:14px;display:none}
 
-/* CARDS & SECTIONS */
+/* ADMIN LAYOUT */
+.admin-wrap{display:none;min-height:100vh}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.t-logo{display:flex;align-items:center;gap:10px}
+.t-icon{width:30px;height:30px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.t-icon svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.t-name{font-family:var(--font-head);font-size:13px;color:var(--text)}
+.t-badge{font-size:10px;background:var(--red-dim);color:var(--red);padding:3px 9px;border-radius:20px;font-family:var(--font-head);margin-left:8px}
+.t-right{display:flex;align-items:center;gap:10px}
+.admin-name{font-size:13px;color:var(--text2)}
+.logout-btn{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:6px 14px;font-size:12px;color:var(--text2);cursor:pointer;font-family:var(--font-body);transition:0.2s}
+.logout-btn:hover{color:var(--red);border-color:var(--red)}
+
+.layout{display:flex;min-height:calc(100vh - 56px)}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);padding:16px 12px;flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sid-section{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-family:var(--font-head);padding:12px 10px 6px;margin-top:8px}
+.sid-section:first-child{margin-top:0}
+.sid-btn{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border:none;background:transparent;color:var(--text2);font-family:var(--font-body);font-size:13px;border-radius:8px;cursor:pointer;transition:0.15s;text-align:left}
+.sid-btn:hover{background:var(--bg3);color:var(--text)}
+.sid-btn.active{background:var(--blue-dim);color:var(--blue)}
+.sid-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sid-count{margin-left:auto;font-size:10px;background:var(--red-dim);color:var(--red);padding:2px 7px;border-radius:10px;font-family:var(--font-head)}
+
+/* MAIN CONTENT */
+.content{flex:1;padding:24px;overflow-x:hidden}
+.page{display:none}.page.active{display:block}
+.page-title{font-family:var(--font-head);font-size:18px;color:var(--text);margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
+
+/* STAT CARDS */
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
+@media(max-width:900px){.grid4{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px}
+.stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:var(--font-head)}
+.stat-val{font-size:26px;font-weight:600;color:var(--text);font-family:var(--font-head)}
+.stat-ch{font-size:11px;margin-top:5px}
+.red{color:var(--red)}.green{color:var(--green)}.amber{color:var(--amber)}.purple{color:var(--purple)}
+
+/* SECTION */
 .section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px}
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.sec-title{font-family:var(--font-head);font-size:13px;color:var(--text);letter-spacing:0.02em}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:gap}
+.sec-title{font-family:var(--font-head);font-size:12px;color:var(--text);letter-spacing:0.03em}
 .badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;font-family:var(--font-head)}
 .badge-red{background:var(--red-dim);color:var(--red)}
 .badge-amber{background:var(--amber-dim);color:var(--amber)}
 .badge-blue{background:var(--blue-dim);color:var(--blue)}
 .badge-green{background:var(--green-dim);color:var(--green)}
+.badge-purple{background:var(--purple-dim);color:var(--purple)}
 
-/* STAT GRID */
-.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
-@media(max-width:700px){.grid4{grid-template-columns:repeat(2,1fr)}}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px}
-.stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:var(--font-head)}
-.stat-val{font-size:22px;font-weight:600;color:var(--text);font-family:var(--font-head)}
-.stat-ch{font-size:11px;margin-top:4px}
-.red{color:var(--red)}.green{color:var(--green)}.amber{color:var(--amber)}
-
-/* THREAT BANNER */
-.threat-banner{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--red-dim);border:1px solid #5a1010;border-radius:var(--radius);margin-bottom:16px}
-.threat-icon{font-size:18px;flex-shrink:0;margin-top:1px}
-.threat-text{font-size:13px;color:#ffb3b3;line-height:1.5}
-
-/* ALERT ROWS */
-.alert-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:var(--transition)}
-.alert-row:last-child{border-bottom:none;padding-bottom:0}
-.alert-row:first-child{padding-top:0}
-.alert-row:hover{opacity:0.8}
-.alert-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
-.ico-red{background:var(--red-dim)}
-.ico-amber{background:var(--amber-dim)}
-.ico-blue{background:var(--blue-dim)}
-.ico-green{background:var(--green-dim)}
-.alert-title{font-size:13px;color:var(--text);margin-bottom:2px;font-weight:500}
-.alert-meta{font-size:11px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap}
-.alert-meta span{display:flex;align-items:center;gap:3px}
-.share-btn{margin-left:auto;flex-shrink:0;background:var(--green-dim);border:none;border-radius:6px;padding:5px 10px;font-size:11px;color:var(--green);cursor:pointer;font-family:var(--font-body);white-space:nowrap;transition:var(--transition)}
-.share-btn:hover{opacity:0.8}
-
-/* BARS */
-.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.bar-lbl{font-size:12px;color:var(--text2);width:130px;flex-shrink:0}
-.bar-track{flex:1;background:var(--bg3);border-radius:4px;height:8px;overflow:hidden}
-.bar-fill{height:100%;border-radius:4px;transition:width 0.8s ease}
-.bar-val{font-size:12px;color:var(--text3);width:40px;text-align:right;flex-shrink:0;font-family:var(--font-head)}
-
-/* GRID 2 */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 12px;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-head);border-bottom:1px solid var(--border);font-weight:400}
+td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg3)}
+.td-main{color:var(--text);font-weight:500}
+.action-btn{border:none;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:var(--font-body);margin-right:4px;transition:0.15s}
+.btn-view{background:var(--blue-dim);color:var(--blue)}
+.btn-del{background:var(--red-dim);color:var(--red)}
+.btn-del:hover{opacity:0.8}
+.btn-resolve{background:var(--green-dim);color:var(--green)}
 
 /* FORM */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:640px){.form-row{grid-template-columns:1fr}}
 .form-group{margin-bottom:14px}
 .form-lbl{font-size:12px;color:var(--text2);margin-bottom:6px;display:block;font-weight:500}
-.form-inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:var(--transition)}
+.form-inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:0.2s}
 .form-inp:focus{border-color:var(--blue)}
 .form-select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;cursor:pointer}
-.form-textarea{resize:vertical;min-height:100px}
-.submit-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:var(--transition);margin-top:4px}
-.submit-btn:hover{background:var(--blue2)}
-.success-box{background:var(--green-dim);border:1px solid #0a6040;border-radius:8px;padding:14px;color:var(--green);font-size:13px;display:none;margin-top:12px;line-height:1.6}
-.login-gate{background:var(--blue-dim);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;text-align:center;margin-bottom:16px}
-.login-gate p{font-size:13px;color:var(--text2);margin-bottom:10px}
-.login-gate button{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;cursor:pointer;font-family:var(--font-body);font-weight:500}
+.form-textarea{resize:vertical;min-height:90px}
+.btn-add{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:0.2s}
+.btn-add:hover{background:var(--blue2)}
+.btn-danger{background:var(--red-dim);color:var(--red);border:1px solid #5a1010;border-radius:8px;padding:9px 18px;font-size:13px;cursor:pointer;font-family:var(--font-body)}
 
-/* TIPS */
-.tip-card{background:var(--bg3);border-radius:var(--radius);padding:13px 15px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;border:1px solid var(--border)}
-.tip-num{width:26px;height:26px;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;font-family:var(--font-head)}
-.tip-text{font-size:13px;color:var(--text2);line-height:1.55}
-.tip-text strong{color:var(--text)}
+/* ALERT DETAIL MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:24px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto}
+.modal-title{font-family:var(--font-head);font-size:15px;margin-bottom:14px;color:var(--text)}
+.modal-row{display:flex;gap:10px;margin-bottom:10px;font-size:13px}
+.modal-key{color:var(--text3);min-width:120px;flex-shrink:0}
+.modal-val{color:var(--text2)}
+.modal-btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
 
-/* REPORT LIST */
-.rpt-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
-.rpt-row:last-child{border-bottom:none}
-.rpt-row span:first-child{color:var(--text2)}
-.rpt-row span:last-child{color:var(--blue);font-family:var(--font-head);font-size:12px}
+/* BAR */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-lbl{font-size:12px;color:var(--text2);width:140px;flex-shrink:0}
+.bar-track{flex:1;background:var(--bg3);border-radius:4px;height:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.bar-val{font-size:12px;color:var(--text3);width:36px;text-align:right;font-family:var(--font-head)}
 
-/* SUPPORT */
-.support-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
-.sup-ico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.sup-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
-.sup-sub{font-size:11px;color:var(--text3)}
-.sup-link{margin-left:auto;flex-shrink:0;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--blue);cursor:pointer;text-decoration:none;font-family:var(--font-head)}
-.chat-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-top:8px}
-.chat-msgs{min-height:80px;max-height:200px;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:8px}
-.chat-msg{padding:9px 13px;border-radius:10px;font-size:13px;max-width:80%;line-height:1.5}
-.chat-msg.bot{background:var(--bg4);color:var(--text);align-self:flex-start}
-.chat-msg.user{background:var(--blue);color:#fff;align-self:flex-end}
-.chat-row{display:flex;gap:8px}
-.chat-input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 13px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none}
-.chat-send{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:13px;cursor:pointer;font-family:var(--font-body);white-space:nowrap}
+/* REVIEW CARDS */
+.review-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+.review-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.review-name{font-size:13px;font-weight:500;color:var(--text)}
+.review-stars{color:var(--amber);font-size:14px}
+.review-text{font-size:13px;color:var(--text2);line-height:1.5}
+.review-meta{font-size:11px;color:var(--text3);margin-top:6px}
+.empty-state{text-align:center;padding:36px 20px;color:var(--text3);font-size:13px}
 
-/* NO RESULTS */
-.no-results{text-align:center;padding:30px 20px;color:var(--text3);font-size:13px}
+/* CHANGE PASSWORD */
+.pw-section{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.pw-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:12px}
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-
-@media(max-width:640px){
-  .bottom-nav{display:flex}
-  .desktop-nav{display:none}
-  .main{padding:14px;padding-bottom:90px}
-  .topbar{padding:0 14px}
-  .live-badge span:not(.dot-live){display:none}
+@media(max-width:768px){
+  .sidebar{display:none}
+  .content{padding:14px}
 }
 </style>
 </head>
 <body>
 
-<!-- AUTH MODAL -->
-<div class="modal-overlay" id="authModal">
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.25C17.25 23.15 21 18.25 21 13V7L12 2z"/></svg>
+      </div>
+      <div>
+        <div class="login-name">CyberShield NG</div>
+        <div class="login-tag">Developer Admin Panel</div>
+      </div>
+    </div>
+    <div class="login-title">Admin Access</div>
+    <div class="login-sub">Enter your credentials to access the backend</div>
+    <div class="login-err" id="loginErr">Incorrect username or password. Please try again.</div>
+    <input class="inp" type="text" id="adminUser" placeholder="Admin username" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+    <input class="inp" type="password" id="adminPwd" placeholder="Admin password" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+    <button class="btn-login" onclick="doAdminLogin()">Access Admin Panel</button>
+    <p class="login-hint">Default: username <strong>admin</strong> · password <strong>cybershield2026</strong></p>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
   <div class="modal">
-    <button class="modal-close" onclick="closeAuth()">✕</button>
-    <div class="modal-title">CyberShield NG</div>
-    <div class="modal-sub">Join Nigeria's cybersecurity network</div>
-    <div class="tab-switch">
-      <button class="tab-sw-btn active" onclick="switchAuth('login',this)">Sign In</button>
-      <button class="tab-sw-btn" onclick="switchAuth('register',this)">Register</button>
-    </div>
-    <div class="form-auth active" id="form-login">
-      <input class="inp" type="email" placeholder="Email address" id="login-email"/>
-      <input class="inp" type="password" placeholder="Password" id="login-pwd"/>
-      <button class="btn-primary" onclick="doLogin()">Sign In</button>
-      <p class="auth-note">Demo: use any email & password</p>
-    </div>
-    <div class="form-auth" id="form-register">
-      <input class="inp" type="text" placeholder="Full name" id="reg-name"/>
-      <input class="inp" type="email" placeholder="Email address" id="reg-email"/>
-      <input class="inp" type="password" placeholder="Create password (min 6 chars)" id="reg-pwd"/>
-      <button class="btn-primary" onclick="doRegister()">Create Account</button>
-      <p class="auth-note">Your information is kept strictly confidential</p>
-    </div>
+    <div class="modal-title" id="modalTitle">Report Detail</div>
+    <div id="modalBody"></div>
+    <div class="modal-btns" id="modalBtns"></div>
   </div>
 </div>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <a class="logo" href="#">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.25C17.25 23.15 21 18.25 21 13V7L12 2z"/></svg>
+<!-- ADMIN PANEL -->
+<div class="admin-wrap" id="adminWrap">
+  <div class="topbar">
+    <div class="t-logo">
+      <div class="t-icon"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.25C17.25 23.15 21 18.25 21 13V7L12 2z"/></svg></div>
+      <span class="t-name">CyberShield NG</span>
+      <span class="t-badge">ADMIN</span>
     </div>
-    <div>
-      <div class="logo-name">CyberShield NG</div>
-      <div class="logo-tag">Financial Cybersecurity Platform</div>
-    </div>
-  </a>
-  <div class="topbar-right">
-    <div class="live-badge"><span class="dot-live"></span><span>LIVE</span></div>
-    <button class="icon-btn" onclick="toggleSearch()" title="Search">🔍</button>
-    <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
-    <button class="icon-btn" onclick="openAuth()" id="loginBtn" title="Login">👤</button>
-  </div>
-</div>
-
-<!-- USER BAR -->
-<div class="user-bar" id="userBar" style="display:none">
-  <div class="user-bar-text">Welcome back, <span class="user-bar-name" id="userNameDisplay"></span> — stay safe online.</div>
-  <button class="logout-btn" onclick="doLogout()">Sign out</button>
-</div>
-
-<!-- SEARCH BAR -->
-<div class="search-bar" id="searchBar">
-  <div class="search-wrap">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input class="search-input" id="searchInput" type="text" placeholder="Search alerts, threats, institutions..." oninput="doSearch(this.value)"/>
-  </div>
-</div>
-
-<!-- DESKTOP NAV -->
-<div class="desktop-nav" id="desktopNav">
-  <button class="dnav-btn active" onclick="showTab('dashboard',this,'dn')">Dashboard</button>
-  <button class="dnav-btn" onclick="showTab('alerts',this,'dn')">Threat Alerts</button>
-  <button class="dnav-btn" onclick="showTab('report',this,'dn')">Report Fraud</button>
-  <button class="dnav-btn" onclick="showTab('awareness',this,'dn')">Awareness</button>
-  <button class="dnav-btn" onclick="showTab('stats',this,'dn')">Statistics</button>
-  <button class="dnav-btn" onclick="showTab('support',this,'dn')">Support</button>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="main active">
-  <div class="grid4">
-    <div class="stat-card"><div class="stat-lbl">Active Threats</div><div class="stat-val">47</div><div class="stat-ch red">▲ 12 this week</div></div>
-    <div class="stat-card"><div class="stat-lbl">Reports Today</div><div class="stat-val">183</div><div class="stat-ch red">▲ 8% vs yesterday</div></div>
-    <div class="stat-card"><div class="stat-lbl">Institutions Alerted</div><div class="stat-val">29</div><div class="stat-ch green">✓ All notified</div></div>
-    <div class="stat-card"><div class="stat-lbl">Fraud Prevented (₦)</div><div class="stat-val">₦2.1B</div><div class="stat-ch green">This month</div></div>
-  </div>
-  <div class="threat-banner">
-    <div class="threat-icon">⚠️</div>
-    <div class="threat-text"><strong>NATIONAL THREAT LEVEL: HIGH</strong> — Coordinated phishing campaigns targeting mobile banking users detected across Lagos, Kano, Abuja, Rivers, Kaduna and Ogun states. All institutions have been notified via the CBN cybersecurity portal.</div>
-  </div>
-  <div class="grid2">
-    <div class="section">
-      <div class="sec-hdr"><span class="sec-title">// RECENT ALERTS</span><span class="badge badge-red">3 Critical</span></div>
-      <div class="alert-row" onclick="showTab('alerts',null,'go')">
-        <div class="alert-ico ico-red">🛡️</div>
-        <div style="flex:1"><div class="alert-title">Ransomware targeting deposit money banks</div><div class="alert-meta"><span>2h ago</span><span>Lagos</span><span class="badge badge-red">Critical</span></div></div>
-      </div>
-      <div class="alert-row" onclick="showTab('alerts',null,'go')">
-        <div class="alert-ico ico-amber">🎣</div>
-        <div style="flex:1"><div class="alert-title">Phishing kit mimicking GTBank login</div><div class="alert-meta"><span>5h ago</span><span>Abuja</span><span class="badge badge-amber">High</span></div></div>
-      </div>
-      <div class="alert-row" onclick="showTab('alerts',null,'go')">
-        <div class="alert-ico ico-blue">📡</div>
-        <div style="flex:1"><div class="alert-title">Unusual API access on MFB cluster</div><div class="alert-meta"><span>1d ago</span><span>Kano</span><span class="badge badge-blue">Medium</span></div></div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sec-hdr"><span class="sec-title">// ATTACK VECTORS</span></div>
-      <div class="bar-row"><span class="bar-lbl">Phishing</span><div class="bar-track"><div class="bar-fill" style="width:78%;background:#1a6cff"></div></div><span class="bar-val">78%</span></div>
-      <div class="bar-row"><span class="bar-lbl">Insider Threat</span><div class="bar-track"><div class="bar-fill" style="width:54%;background:#7c3aed"></div></div><span class="bar-val">54%</span></div>
-      <div class="bar-row"><span class="bar-lbl">Ransomware</span><div class="bar-track"><div class="bar-fill" style="width:41%;background:#ff3b3b"></div></div><span class="bar-val">41%</span></div>
-      <div class="bar-row"><span class="bar-lbl">Account Takeover</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:#ffb020"></div></div><span class="bar-val">33%</span></div>
-      <div class="bar-row"><span class="bar-lbl">Social Engineering</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:#00d97e"></div></div><span class="bar-val">22%</span></div>
+    <div class="t-right">
+      <span class="admin-name" id="adminDisplay"></span>
+      <button class="logout-btn" onclick="adminLogout()">Sign Out</button>
     </div>
   </div>
-  <div class="section">
-    <div class="sec-hdr"><span class="sec-title">// FRAUD BY INSTITUTION TYPE</span></div>
-    <div class="rpt-row"><span>Deposit Money Banks (DMBs)</span><span>1,204 reports</span></div>
-    <div class="rpt-row"><span>Fintech / Payment Platforms</span><span>892 reports</span></div>
-    <div class="rpt-row"><span>Microfinance Banks (MFBs)</span><span>387 reports</span></div>
-    <div class="rpt-row"><span>Insurance Companies</span><span>143 reports</span></div>
-    <div class="rpt-row"><span>Capital Market Operators</span><span>96 reports</span></div>
-  </div>
-</div>
 
-<!-- THREAT ALERTS -->
-<div id="alerts" class="main">
-  <div id="searchResults" style="display:none"></div>
-  <div id="alertsList">
-    <div class="section">
-      <div class="sec-hdr"><span class="sec-title">// LIVE THREAT FEED</span><span class="badge badge-red">Updated now</span></div>
-      <div class="alert-row">
-        <div class="alert-ico ico-red">🛡️</div>
-        <div style="flex:1"><div class="alert-title">Ransomware campaign targeting deposit money banks in Lagos and Ogun State</div><div class="alert-meta"><span>Mar 21, 2026</span><span>Lagos · Ogun</span><span class="badge badge-red">Critical</span></div></div>
-        <button class="share-btn" onclick="shareAlert('Ransomware campaign targeting Nigerian banks — Stay alert! via CyberShield NG')">Share 📲</button>
-      </div>
-      <div class="alert-row">
-        <div class="alert-ico ico-amber">🎣</div>
-        <div style="flex:1"><div class="alert-title">Spoofed GTBank login page circulating via WhatsApp in FCT and Kano</div><div class="alert-meta"><span>Mar 21, 2026</span><span>Abuja · Kano</span><span class="badge badge-amber">High</span></div></div>
-        <button class="share-btn" onclick="shareAlert('Fake GTBank login page spreading on WhatsApp! Do not click links. via CyberShield NG')">Share 📲</button>
-      </div>
-      <div class="alert-row">
-        <div class="alert-ico ico-amber">📱</div>
-        <div style="flex:1"><div class="alert-title">BVN harvesting scam via fake NIN update SMS messages targeting all states</div><div class="alert-meta"><span>Mar 20, 2026</span><span>Nationwide</span><span class="badge badge-amber">High</span></div></div>
-        <button class="share-btn" onclick="shareAlert('BVN scam via fake NIN update SMS! Do not respond. via CyberShield NG')">Share 📲</button>
-      </div>
-      <div class="alert-row">
-        <div class="alert-ico ico-blue">📡</div>
-        <div style="flex:1"><div class="alert-title">Unusual after-hours API traffic on two microfinance bank clusters — under investigation</div><div class="alert-meta"><span>Mar 20, 2026</span><span>Rivers · Enugu</span><span class="badge badge-blue">Medium</span></div></div>
-        <button class="share-btn" onclick="shareAlert('MFB API anomaly detected in South-East. Authorities investigating. via CyberShield NG')">Share 📲</button>
-      </div>
-      <div class="alert-row">
-        <div class="alert-ico ico-blue">🔐</div>
-        <div style="flex:1"><div class="alert-title">Credential stuffing attempt on fintech mobile apps — 3 platforms affected, patching underway</div><div class="alert-meta"><span>Mar 19, 2026</span><span>Nationwide</span><span class="badge badge-blue">Medium</span></div></div>
-        <button class="share-btn" onclick="shareAlert('Fintech apps under credential attack. Change your passwords now. via CyberShield NG')">Share 📲</button>
-      </div>
-      <div class="alert-row">
-        <div class="alert-ico ico-green">✅</div>
-        <div style="flex:1"><div class="alert-title">CBN issues new directive: all DMBs must complete cybersecurity framework self-assessment by April 30</div><div class="alert-meta"><span>Mar 18, 2026</span><span>Regulatory</span><span class="badge badge-green">Notice</span></div></div>
-        <button class="share-btn" onclick="shareAlert('CBN directive: DMBs must complete cyber self-assessment by April 30. via CyberShield NG')">Share 📲</button>
-      </div>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sid-section">Overview</div>
+      <button class="sid-btn active" onclick="showPage('overview',this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </button>
+      <div class="sid-section">Data</div>
+      <button class="sid-btn" onclick="showPage('reports',this)">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Fraud Reports
+        <span class="sid-count" id="reportCount">0</span>
+      </button>
+      <button class="sid-btn" onclick="showPage('users',this)">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Users
+        <span class="sid-count" id="userCount">0</span>
+      </button>
+      <button class="sid-btn" onclick="showPage('reviews',this)">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Reviews
+        <span class="sid-count" id="reviewCount">0</span>
+      </button>
+      <div class="sid-section">Manage</div>
+      <button class="sid-btn" onclick="showPage('alerts',this)">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Manage Alerts
+      </button>
+      <button class="sid-btn" onclick="showPage('stats',this)">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </button>
+      <div class="sid-section">Settings</div>
+      <button class="sid-btn" onclick="showPage('settings',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </button>
     </div>
-  </div>
-</div>
 
-<!-- REPORT FRAUD -->
-<div id="report" class="main">
-  <div class="login-gate" id="reportGate" style="display:none">
-    <p>Please sign in to submit a verified fraud report. Anonymous reports are also accepted below.</p>
-    <button onclick="openAuth()">Sign In / Register</button>
-  </div>
-  <div class="section">
-    <div class="sec-hdr"><span class="sec-title">// SUBMIT FRAUD REPORT</span><span class="badge badge-blue">Secure & Confidential</span></div>
-    <div class="grid2">
-      <div>
-        <div class="form-group">
-          <label class="form-lbl">Your name (optional)</label>
-          <input class="form-inp" type="text" placeholder="Anonymous allowed" id="r-name"/>
+    <div class="content">
+
+      <!-- OVERVIEW -->
+      <div class="page active" id="page-overview">
+        <div class="page-title">Dashboard Overview</div>
+        <div class="page-sub">Welcome back. Here's your platform summary.</div>
+        <div class="grid4">
+          <div class="stat-card"><div class="stat-lbl">Total Reports</div><div class="stat-val" id="ov-reports">0</div><div class="stat-ch green">All time</div></div>
+          <div class="stat-card"><div class="stat-lbl">Registered Users</div><div class="stat-val" id="ov-users">0</div><div class="stat-ch green">On platform</div></div>
+          <div class="stat-card"><div class="stat-lbl">Active Alerts</div><div class="stat-val" id="ov-alerts">0</div><div class="stat-ch amber">Live</div></div>
+          <div class="stat-card"><div class="stat-lbl">Pending Review</div><div class="stat-val" id="ov-pending">0</div><div class="stat-ch red">Action needed</div></div>
         </div>
-        <div class="form-group">
-          <label class="form-lbl">Institution involved *</label>
-          <input class="form-inp" type="text" placeholder="e.g. First Bank, Opay, Access Bank..." id="r-inst"/>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// RECENT FRAUD REPORTS</span></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Ref ID</th><th>Institution</th><th>Type</th><th>State</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="recentReportsTbl"><tr><td colspan="6" style="text-align:center;color:var(--text3);padding:20px">No reports yet</td></tr></tbody>
+          </table></div>
         </div>
-        <div class="form-group">
-          <label class="form-lbl">Incident type *</label>
-          <select class="form-select" id="r-type">
-            <option value="">Select type...</option>
-            <option>Account takeover / unauthorized access</option>
-            <option>Phishing / social engineering</option>
-            <option>Fraudulent transfer</option>
-            <option>Identity theft / BVN fraud</option>
-            <option>Ransomware / malware</option>
-            <option>Insider fraud</option>
-            <option>SIM swap fraud</option>
-            <option>Fake investment scheme</option>
-            <option>Other</option>
-          </select>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// RECENT REVIEWS</span></div>
+          <div id="recentReviews"><div class="empty-state">No reviews yet</div></div>
         </div>
       </div>
-      <div>
-        <div class="form-group">
-          <label class="form-lbl">State of occurrence *</label>
-          <select class="form-select" id="r-state">
-            <option value="">Select state...</option>
-            <option>Lagos</option><option>Abuja (FCT)</option><option>Kano</option>
-            <option>Rivers</option><option>Ogun</option><option>Kaduna</option>
-            <option>Enugu</option><option>Delta</option><option>Anambra</option>
-            <option>Oyo</option><option>Imo</option><option>Kwara</option>
-            <option>Plateau</option><option>Borno</option><option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-lbl">Date of incident</label>
-          <input class="form-inp" type="date" id="r-date"/>
-        </div>
-        <div class="form-group">
-          <label class="form-lbl">Estimated amount lost (₦)</label>
-          <input class="form-inp" type="number" placeholder="0 if unknown" id="r-amount"/>
+
+      <!-- FRAUD REPORTS -->
+      <div class="page" id="page-reports">
+        <div class="page-title">Fraud Reports</div>
+        <div class="page-sub">All submitted fraud and cybersecurity incident reports.</div>
+        <div class="section">
+          <div class="sec-hdr">
+            <span class="sec-title">// ALL REPORTS</span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <select class="form-select" style="width:auto;padding:6px 10px;font-size:12px" id="filterStatus" onchange="renderReports()">
+                <option value="">All Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+              <button class="btn-danger" onclick="clearAllReports()" style="padding:6px 12px;font-size:12px">Clear All</button>
+            </div>
+          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Ref ID</th><th>Institution</th><th>Type</th><th>State</th><th>Amount (₦)</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="reportsTbl"></tbody>
+          </table></div>
         </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Describe what happened *</label>
-      <textarea class="form-inp form-textarea" placeholder="Provide as much detail as possible — what happened, how it happened, what steps you have taken..." id="r-desc"></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Your contact (optional — for follow-up)</label>
-      <input class="form-inp" type="text" placeholder="Phone or email" id="r-contact"/>
-    </div>
-    <button class="submit-btn" onclick="submitReport()">🔒 Submit Report Securely</button>
-    <div class="success-box" id="success-box">
-      <strong>✓ Report submitted successfully!</strong><br/>
-      Your reference ID is <strong id="ref-id"></strong>.<br/>
-      Your report has been forwarded to the relevant authorities including the CBN, EFCC, and NIBSS. Thank you for helping protect Nigeria's financial system.<br/><br/>
-      <strong>Emergency contacts:</strong> EFCC Hotline: 08093322644 | CBN Consumer Protection: 07002255226
-    </div>
-  </div>
-</div>
 
-<!-- AWARENESS -->
-<div id="awareness" class="main">
-  <div class="section">
-    <div class="sec-hdr"><span class="sec-title">// CYBERSECURITY SAFETY TIPS</span></div>
-    <div class="tip-card"><div class="tip-num">01</div><div class="tip-text"><strong>Never share your OTP.</strong> No legitimate bank, CBN official, EFCC agent, or police officer will ever ask for your One-Time Password. Hang up or walk away immediately if asked.</div></div>
-    <div class="tip-card"><div class="tip-num">02</div><div class="tip-text"><strong>Verify before you transfer.</strong> Always call back the person requesting a transfer using a number you already know — not a number they provide. Fraudsters impersonate family members and colleagues.</div></div>
-    <div class="tip-card"><div class="tip-num">03</div><div class="tip-text"><strong>Use strong, unique passwords.</strong> Do not use the same password across your banking apps. Enable biometric authentication where available. Change passwords every 3 months.</div></div>
-    <div class="tip-card"><div class="tip-num">04</div><div class="tip-text"><strong>Check URLs carefully.</strong> Always confirm the website address starts with https:// and matches your bank's exact official domain before entering any login credentials.</div></div>
-    <div class="tip-card"><div class="tip-num">05</div><div class="tip-text"><strong>Protect your BVN.</strong> Your Bank Verification Number is not a password — but scammers use it to impersonate you. Never share it publicly, online, or over the phone.</div></div>
-    <div class="tip-card"><div class="tip-num">06</div><div class="tip-text"><strong>Beware of SIM swap fraud.</strong> If your phone suddenly loses signal, contact your network provider immediately. Fraudsters use SIM swaps to bypass two-factor authentication.</div></div>
-    <div class="tip-card"><div class="tip-num">07</div><div class="tip-text"><strong>Report immediately.</strong> If you suspect fraud, call your bank's official helpline right away. Also report to: EFCC — 08093322644 | CBN — 07002255226 | NITDA — report.nitda.gov.ng</div></div>
-    <div class="tip-card"><div class="tip-num">08</div><div class="tip-text"><strong>Update your apps regularly.</strong> App updates often contain critical security patches. Enable automatic updates for all banking and financial applications on your phone.</div></div>
-  </div>
-</div>
-
-<!-- STATISTICS -->
-<div id="stats" class="main">
-  <div class="grid4">
-    <div class="stat-card"><div class="stat-lbl">2023 Fraud Losses</div><div class="stat-val">₦9.5B</div><div class="stat-ch red">NIBSS Annual Report</div></div>
-    <div class="stat-card"><div class="stat-lbl">Cyber Incidents 2024</div><div class="stat-val">6,842</div><div class="stat-ch red">▲ 34% YoY</div></div>
-    <div class="stat-card"><div class="stat-lbl">Institutions Breached</div><div class="stat-val">38</div><div class="stat-ch amber">Reported 2023–24</div></div>
-    <div class="stat-card"><div class="stat-lbl">CBN Sanctions</div><div class="stat-val">₦1.3B</div><div class="stat-ch green">For non-compliance</div></div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr"><span class="sec-title">// FRAUD LOSSES BY YEAR (₦ BILLION)</span></div>
-    <div class="bar-row"><span class="bar-lbl">2020</span><div class="bar-track"><div class="bar-fill" style="width:28%;background:#1a6cff"></div></div><span class="bar-val">₦3.1B</span></div>
-    <div class="bar-row"><span class="bar-lbl">2021</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:#1a6cff"></div></div><span class="bar-val">₦4.3B</span></div>
-    <div class="bar-row"><span class="bar-lbl">2022</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#ffb020"></div></div><span class="bar-val">₦5.8B</span></div>
-    <div class="bar-row"><span class="bar-lbl">2023</span><div class="bar-track"><div class="bar-fill" style="width:78%;background:#ff3b3b"></div></div><span class="bar-val">₦9.5B</span></div>
-    <div class="bar-row"><span class="bar-lbl">2024 (est.)</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:#ff3b3b"></div></div><span class="bar-val">₦11.2B</span></div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr"><span class="sec-title">// CYBERSECURITY COMPLIANCE RATE</span></div>
-    <div class="bar-row"><span class="bar-lbl">Tier-1 Banks</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:#00d97e"></div></div><span class="bar-val">82%</span></div>
-    <div class="bar-row"><span class="bar-lbl">Tier-2 Banks</span><div class="bar-track"><div class="bar-fill" style="width:64%;background:#ffb020"></div></div><span class="bar-val">64%</span></div>
-    <div class="bar-row"><span class="bar-lbl">Fintechs</span><div class="bar-track"><div class="bar-fill" style="width:71%;background:#ffb020"></div></div><span class="bar-val">71%</span></div>
-    <div class="bar-row"><span class="bar-lbl">Microfinance Banks</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:#ff3b3b"></div></div><span class="bar-val">38%</span></div>
-    <div class="bar-row"><span class="bar-lbl">Insurance Cos.</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#ffb020"></div></div><span class="bar-val">55%</span></div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr"><span class="sec-title">// TOP FRAUD CHANNELS 2024</span></div>
-    <div class="bar-row"><span class="bar-lbl">Mobile Banking</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:#1a6cff"></div></div><span class="bar-val">72%</span></div>
-    <div class="bar-row"><span class="bar-lbl">Internet Banking</span><div class="bar-track"><div class="bar-fill" style="width:58%;background:#7c3aed"></div></div><span class="bar-val">58%</span></div>
-    <div class="bar-row"><span class="bar-lbl">ATM / POS</span><div class="bar-track"><div class="bar-fill" style="width:43%;background:#ff3b3b"></div></div><span class="bar-val">43%</span></div>
-    <div class="bar-row"><span class="bar-lbl">USSD / *737#</span><div class="bar-track"><div class="bar-fill" style="width:29%;background:#ffb020"></div></div><span class="bar-val">29%</span></div>
-  </div>
-</div>
-
-<!-- SUPPORT -->
-<div id="support" class="main">
-  <div class="section">
-    <div class="sec-hdr"><span class="sec-title">// EMERGENCY CONTACTS</span></div>
-    <div class="support-card"><div class="sup-ico" style="background:#1a0505">🚨</div><div><div class="sup-title">EFCC Fraud Hotline</div><div class="sup-sub">Economic & Financial Crimes Commission</div></div><a class="sup-link" href="tel:08093322644">Call Now</a></div>
-    <div class="support-card"><div class="sup-ico" style="background:#0a1628">🏦</div><div><div class="sup-title">CBN Consumer Protection</div><div class="sup-sub">Central Bank of Nigeria helpdesk</div></div><a class="sup-link" href="tel:07002255226">Call Now</a></div>
-    <div class="support-card"><div class="sup-ico" style="background:#0a1628">🖥️</div><div><div class="sup-title">NITDA Cyber Reporting</div><div class="sup-sub">Online cyber incident reporting portal</div></div><a class="sup-link" href="https://report.nitda.gov.ng" target="_blank">Visit</a></div>
-    <div class="support-card"><div class="sup-ico" style="background:#03200e">🛡️</div><div><div class="sup-title">NIBSS Fraud Desk</div><div class="sup-sub">Nigeria Inter-Bank Settlement System</div></div><a class="sup-link" href="https://nibss-plc.com.ng" target="_blank">Visit</a></div>
-  </div>
-  <div class="section">
-    <div class="sec-hdr"><span class="sec-title">// LIVE SUPPORT CHAT</span></div>
-    <div class="chat-box">
-      <div class="chat-msgs" id="chatMsgs">
-        <div class="chat-msg bot">👋 Hello! I'm CyberShield NG's support assistant. How can I help you today? You can ask about fraud reporting, cybersecurity tips, or how to contact authorities.</div>
+      <!-- USERS -->
+      <div class="page" id="page-users">
+        <div class="page-title">Registered Users</div>
+        <div class="page-sub">All users who have created accounts on CyberShield NG.</div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// USER LIST</span><button class="btn-danger" onclick="clearAllUsers()" style="padding:6px 12px;font-size:12px">Clear All</button></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Reports</th><th>Action</th></tr></thead>
+            <tbody id="usersTbl"></tbody>
+          </table></div>
+        </div>
       </div>
-      <div class="chat-row">
-        <input class="chat-input" id="chatInput" type="text" placeholder="Type your question..." onkeydown="if(event.key==='Enter')sendChat()"/>
-        <button class="chat-send" onclick="sendChat()">Send</button>
+
+      <!-- REVIEWS -->
+      <div class="page" id="page-reviews">
+        <div class="page-title">User Reviews & Recommendations</div>
+        <div class="page-sub">Feedback submitted by platform users.</div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// ADD SAMPLE REVIEW (for testing)</span></div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label class="form-lbl">Reviewer name</label>
+              <input class="form-inp" id="rv-name" placeholder="e.g. Aminu Garba"/>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-lbl">Rating</label>
+              <select class="form-select" id="rv-stars">
+                <option value="5">★★★★★ (5 stars)</option>
+                <option value="4">★★★★☆ (4 stars)</option>
+                <option value="3">★★★☆☆ (3 stars)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Review text</label>
+            <textarea class="form-inp form-textarea" id="rv-text" placeholder="What did the user say?"></textarea>
+          </div>
+          <button class="btn-add" onclick="addReview()">Add Review</button>
+        </div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// ALL REVIEWS</span><button class="btn-danger" onclick="clearAllReviews()" style="padding:6px 12px;font-size:12px">Clear All</button></div>
+          <div id="allReviews"><div class="empty-state">No reviews yet</div></div>
+        </div>
       </div>
+
+      <!-- MANAGE ALERTS -->
+      <div class="page" id="page-alerts">
+        <div class="page-title">Manage Threat Alerts</div>
+        <div class="page-sub">Add, edit or remove public cybersecurity alerts shown on the platform.</div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// ADD NEW ALERT</span></div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label class="form-lbl">Alert title *</label>
+              <input class="form-inp" id="al-title" placeholder="Describe the threat..."/>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-lbl">Severity</label>
+              <select class="form-select" id="al-sev">
+                <option value="Critical">Critical</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Notice">Notice</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label class="form-lbl">Location / States affected</label>
+              <input class="form-inp" id="al-loc" placeholder="e.g. Lagos · Kano, or Nationwide"/>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-lbl">Category</label>
+              <select class="form-select" id="al-cat">
+                <option>Phishing</option>
+                <option>Ransomware</option>
+                <option>Account Takeover</option>
+                <option>BVN / Identity Fraud</option>
+                <option>Regulatory Notice</option>
+                <option>API / System Threat</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-add" onclick="addAlert()">Publish Alert</button>
+        </div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// PUBLISHED ALERTS</span><button class="btn-danger" onclick="clearAllAlerts()" style="padding:6px 12px;font-size:12px">Clear All</button></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Title</th><th>Severity</th><th>Location</th><th>Category</th><th>Date</th><th>Action</th></tr></thead>
+            <tbody id="alertsTbl"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div class="page" id="page-stats">
+        <div class="page-title">Analytics</div>
+        <div class="page-sub">Platform statistics and fraud reporting trends.</div>
+        <div class="grid4">
+          <div class="stat-card"><div class="stat-lbl">Total Reports</div><div class="stat-val" id="an-reports">0</div><div class="stat-ch green">All time</div></div>
+          <div class="stat-card"><div class="stat-lbl">Resolved</div><div class="stat-val" id="an-resolved">0</div><div class="stat-ch green">Closed cases</div></div>
+          <div class="stat-card"><div class="stat-lbl">Pending</div><div class="stat-val" id="an-pending">0</div><div class="stat-ch red">Open cases</div></div>
+          <div class="stat-card"><div class="stat-lbl">Avg Rating</div><div class="stat-val" id="an-rating">—</div><div class="stat-ch amber">User satisfaction</div></div>
+        </div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// REPORTS BY INCIDENT TYPE</span></div>
+          <div id="typeStats"><div class="empty-state">No data yet</div></div>
+        </div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// REPORTS BY STATE</span></div>
+          <div id="stateStats"><div class="empty-state">No data yet</div></div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <div class="page-title">Settings</div>
+        <div class="page-sub">Manage your admin credentials and platform settings.</div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// CHANGE ADMIN PASSWORD</span></div>
+          <div style="max-width:400px">
+            <div class="form-group">
+              <label class="form-lbl">Current password</label>
+              <input class="form-inp" type="password" id="pw-current" placeholder="Enter current password"/>
+            </div>
+            <div class="form-group">
+              <label class="form-lbl">New password</label>
+              <input class="form-inp" type="password" id="pw-new" placeholder="Min 8 characters"/>
+            </div>
+            <div class="form-group">
+              <label class="form-lbl">Confirm new password</label>
+              <input class="form-inp" type="password" id="pw-confirm" placeholder="Repeat new password"/>
+            </div>
+            <button class="btn-add" onclick="changePassword()">Update Password</button>
+            <div id="pw-msg" style="margin-top:10px;font-size:13px;display:none"></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// CHANGE ADMIN USERNAME</span></div>
+          <div style="max-width:400px">
+            <div class="form-group">
+              <label class="form-lbl">New admin username</label>
+              <input class="form-inp" id="new-username" placeholder="Enter new username"/>
+            </div>
+            <button class="btn-add" onclick="changeUsername()">Update Username</button>
+            <div id="un-msg" style="margin-top:10px;font-size:13px;display:none"></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-hdr"><span class="sec-title">// DANGER ZONE</span></div>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:14px">These actions are irreversible. Proceed with caution.</p>
+          <button class="btn-danger" onclick="if(confirm('Delete ALL platform data? This cannot be undone.'))nukeAll()">Delete All Platform Data</button>
+        </div>
+      </div>
+
     </div>
   </div>
-</div>
-
-<!-- BOTTOM NAV (mobile) -->
-<div class="bottom-nav">
-  <button class="bnav-btn active" onclick="showTab('dashboard',this,'bn')">
-    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    Home
-  </button>
-  <button class="bnav-btn" onclick="showTab('alerts',this,'bn')">
-    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-    Alerts
-  </button>
-  <button class="bnav-btn" onclick="showTab('report',this,'bn')">
-    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    Report
-  </button>
-  <button class="bnav-btn" onclick="showTab('awareness',this,'bn')">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    Tips
-  </button>
-  <button class="bnav-btn" onclick="showTab('support',this,'bn')">
-    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    Support
-  </button>
 </div>
 
 <script>
-var currentUser = null;
-var isLight = false;
+// ── STORAGE HELPERS ──
+function get(k){try{return JSON.parse(localStorage.getItem('csng_'+k)||'null')}catch(e){return null}}
+function set(k,v){localStorage.setItem('csng_'+k,JSON.stringify(v))}
 
-function showTab(id, btn, source) {
-  document.querySelectorAll('.main').forEach(function(el){el.classList.remove('active')});
-  document.getElementById(id).classList.add('active');
-  if(source==='dn'){
-    document.querySelectorAll('.dnav-btn').forEach(function(el){el.classList.remove('active')});
-    if(btn) btn.classList.add('active');
+// ── DEFAULTS ──
+function init(){
+  if(!get('admin_user')) set('admin_user','admin');
+  if(!get('admin_pwd')) set('admin_pwd','cybershield2026');
+  if(!get('reports')) set('reports',[]);
+  if(!get('users')) set('users',[]);
+  if(!get('alerts')) set('alerts',[
+    {id:uid(),title:'Ransomware campaign targeting deposit money banks in Lagos and Ogun State',sev:'Critical',loc:'Lagos · Ogun',cat:'Ransomware',date:today()},
+    {id:uid(),title:'Spoofed GTBank login page circulating via WhatsApp in FCT and Kano',sev:'High',loc:'Abuja · Kano',cat:'Phishing',date:today()},
+    {id:uid(),title:'BVN harvesting scam via fake NIN update SMS messages targeting all states',sev:'High',loc:'Nationwide',cat:'BVN / Identity Fraud',date:today()},
+  ]);
+  if(!get('reviews')) set('reviews',[]);
+}
+function uid(){return 'CSN-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase()}
+function today(){return new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}
+
+// ── LOGIN ──
+function doAdminLogin(){
+  var u=document.getElementById('adminUser').value.trim();
+  var p=document.getElementById('adminPwd').value;
+  if(u===get('admin_user')&&p===get('admin_pwd')){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminWrap').style.display='block';
+    document.getElementById('adminDisplay').textContent=u;
+    refreshAll();
+  } else {
+    document.getElementById('loginErr').style.display='block';
   }
-  if(source==='bn'){
-    document.querySelectorAll('.bnav-btn').forEach(function(el){el.classList.remove('active')});
-    if(btn) btn.classList.add('active');
+}
+function adminLogout(){
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('adminWrap').style.display='none';
+  document.getElementById('loginErr').style.display='none';
+  document.getElementById('adminUser').value='';
+  document.getElementById('adminPwd').value='';
+}
+
+// ── NAVIGATION ──
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.sid-btn').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  refreshAll();
+}
+
+// ── REFRESH ALL ──
+function refreshAll(){
+  var reports=get('reports')||[];
+  var users=get('users')||[];
+  var alerts=get('alerts')||[];
+  var reviews=get('reviews')||[];
+  var pending=reports.filter(function(r){return r.status==='Pending'});
+
+  // Counts
+  document.getElementById('reportCount').textContent=reports.length;
+  document.getElementById('userCount').textContent=users.length;
+  document.getElementById('reviewCount').textContent=reviews.length;
+  document.getElementById('ov-reports').textContent=reports.length;
+  document.getElementById('ov-users').textContent=users.length;
+  document.getElementById('ov-alerts').textContent=alerts.length;
+  document.getElementById('ov-pending').textContent=pending.length;
+  document.getElementById('an-reports').textContent=reports.length;
+  document.getElementById('an-resolved').textContent=reports.filter(function(r){return r.status==='Resolved'}).length;
+  document.getElementById('an-pending').textContent=pending.length;
+
+  // Avg rating
+  if(reviews.length){
+    var avg=(reviews.reduce(function(s,r){return s+parseInt(r.stars)},0)/reviews.length).toFixed(1);
+    document.getElementById('an-rating').textContent=avg+'★';
   }
-  window.scrollTo(0,0);
+
+  renderRecentReports(reports);
+  renderReports();
+  renderUsers(users);
+  renderAlerts(alerts);
+  renderReviews(reviews);
+  renderRecentReviews(reviews);
+  renderAnalytics(reports);
 }
 
-function toggleSearch(){
-  var bar = document.getElementById('searchBar');
-  bar.classList.toggle('open');
-  if(bar.classList.contains('open')) document.getElementById('searchInput').focus();
+// ── REPORTS ──
+function renderRecentReports(reports){
+  var tb=document.getElementById('recentReportsTbl');
+  var recent=reports.slice(-5).reverse();
+  if(!recent.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:20px">No reports yet</td></tr>';return;}
+  tb.innerHTML=recent.map(function(r){
+    return '<tr><td class="td-main" style="font-size:11px;font-family:var(--font-head)">'+r.id+'</td><td>'+r.inst+'</td><td>'+r.type+'</td><td>'+r.state+'</td><td><span class="badge '+(r.status==='Resolved'?'badge-green':'badge-amber')+'">'+r.status+'</span></td><td><button class="action-btn btn-view" onclick="viewReport(\''+r.id+'\')">View</button></td></tr>';
+  }).join('');
 }
 
-function toggleTheme(){
-  isLight = !isLight;
-  document.body.classList.toggle('light-mode', isLight);
-  document.getElementById('themeBtn').textContent = isLight ? '🌙' : '☀️';
+function renderReports(){
+  var reports=get('reports')||[];
+  var filter=document.getElementById('filterStatus').value;
+  if(filter) reports=reports.filter(function(r){return r.status===filter});
+  var tb=document.getElementById('reportsTbl');
+  if(!reports.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:20px">No reports found</td></tr>';return;}
+  tb.innerHTML=reports.slice().reverse().map(function(r){
+    return '<tr><td style="font-size:11px;font-family:var(--font-head);color:var(--blue)">'+r.id+'</td><td class="td-main">'+r.inst+'</td><td>'+r.type+'</td><td>'+r.state+'</td><td>'+(r.amount?'₦'+Number(r.amount).toLocaleString():'—')+'</td><td>'+r.date+'</td><td><span class="badge '+(r.status==='Resolved'?'badge-green':'badge-amber')+'">'+r.status+'</span></td><td><button class="action-btn btn-view" onclick="viewReport(\''+r.id+'\')">View</button><button class="action-btn btn-resolve" onclick="resolveReport(\''+r.id+'\')">Resolve</button><button class="action-btn btn-del" onclick="deleteReport(\''+r.id+'\')">Del</button></td></tr>';
+  }).join('');
 }
 
-function openAuth(){
-  if(currentUser){return;}
-  document.getElementById('authModal').classList.add('open');
+function viewReport(id){
+  var r=(get('reports')||[]).find(function(x){return x.id===id});
+  if(!r) return;
+  document.getElementById('modalTitle').textContent='Report: '+r.id;
+  document.getElementById('modalBody').innerHTML=[
+    row('Institution',r.inst),row('Incident Type',r.type),row('State',r.state),
+    row('Date',r.date),row('Amount Lost',r.amount?'₦'+Number(r.amount).toLocaleString():'Not specified'),
+    row('Status','<span class="badge '+(r.status==='Resolved'?'badge-green':'badge-amber')+'">'+r.status+'</span>'),
+    row('Reporter',r.name||'Anonymous'),row('Contact',r.contact||'Not provided'),
+    '<div class="modal-row"><span class="modal-key">Description</span><span class="modal-val" style="line-height:1.6">'+r.desc+'</span></div>'
+  ].join('');
+  document.getElementById('modalBtns').innerHTML='<button class="btn-add" style="padding:9px 18px;font-size:13px" onclick="resolveReport(\''+id+'\');closeModal()">Mark Resolved</button><button class="btn-danger" onclick="deleteReport(\''+id+'\');closeModal()">Delete</button><button class="action-btn" style="background:var(--bg3);color:var(--text2)" onclick="closeModal()">Close</button>';
+  document.getElementById('detailModal').classList.add('open');
 }
-function closeAuth(){
-  document.getElementById('authModal').classList.remove('open');
-}
-function switchAuth(tab, btn){
-  document.querySelectorAll('.form-auth').forEach(function(f){f.classList.remove('active')});
-  document.querySelectorAll('.tab-sw-btn').forEach(function(b){b.classList.remove('active')});
-  document.getElementById('form-'+tab).classList.add('active');
-  btn.classList.add('active');
-}
-function doLogin(){
-  var email = document.getElementById('login-email').value.trim();
-  var pwd = document.getElementById('login-pwd').value;
-  if(!email||!pwd){alert('Please enter your email and password.');return;}
-  var name = email.split('@')[0].replace(/[^a-zA-Z]/g,' ').trim();
-  name = name.charAt(0).toUpperCase()+name.slice(1);
-  setUser(name, email);
-}
-function doRegister(){
-  var name = document.getElementById('reg-name').value.trim();
-  var email = document.getElementById('reg-email').value.trim();
-  var pwd = document.getElementById('reg-pwd').value;
-  if(!name||!email||!pwd){alert('Please fill all fields.');return;}
-  if(pwd.length<6){alert('Password must be at least 6 characters.');return;}
-  setUser(name, email);
-}
-function setUser(name, email){
-  currentUser = {name:name, email:email};
-  document.getElementById('userNameDisplay').textContent = name;
-  document.getElementById('userBar').style.display = 'flex';
-  document.getElementById('loginBtn').textContent = '✓';
-  closeAuth();
-}
-function doLogout(){
-  currentUser = null;
-  document.getElementById('userBar').style.display = 'none';
-  document.getElementById('loginBtn').textContent = '👤';
-}
+function row(k,v){return '<div class="modal-row"><span class="modal-key">'+k+'</span><span class="modal-val">'+v+'</span></div>'}
+function closeModal(){document.getElementById('detailModal').classList.remove('open')}
 
-var allAlerts = [
-  {title:'Ransomware campaign targeting deposit money banks in Lagos and Ogun State', loc:'Lagos · Ogun', sev:'Critical', sevClass:'badge-red', date:'Mar 21, 2026', msg:'Ransomware campaign targeting Nigerian banks — Stay alert! via CyberShield NG', ico:'🛡️', icoC:'ico-red'},
-  {title:'Spoofed GTBank login page circulating via WhatsApp in FCT and Kano', loc:'Abuja · Kano', sev:'High', sevClass:'badge-amber', date:'Mar 21, 2026', msg:'Fake GTBank login page spreading on WhatsApp! Do not click links. via CyberShield NG', ico:'🎣', icoC:'ico-amber'},
-  {title:'BVN harvesting scam via fake NIN update SMS messages targeting all states', loc:'Nationwide', sev:'High', sevClass:'badge-amber', date:'Mar 20, 2026', msg:'BVN scam via fake NIN update SMS! Do not respond. via CyberShield NG', ico:'📱', icoC:'ico-amber'},
-  {title:'Unusual after-hours API traffic on two microfinance bank clusters', loc:'Rivers · Enugu', sev:'Medium', sevClass:'badge-blue', date:'Mar 20, 2026', msg:'MFB API anomaly detected. Authorities investigating. via CyberShield NG', ico:'📡', icoC:'ico-blue'},
-  {title:'Credential stuffing attempt on fintech mobile apps — 3 platforms affected', loc:'Nationwide', sev:'Medium', sevClass:'badge-blue', date:'Mar 19, 2026', msg:'Fintech apps under credential attack. Change your passwords now. via CyberShield NG', ico:'🔐', icoC:'ico-blue'},
-  {title:'CBN directive: all DMBs must complete cybersecurity framework self-assessment by April 30', loc:'Regulatory', sev:'Notice', sevClass:'badge-green', date:'Mar 18, 2026', msg:'CBN directive: DMBs must complete cyber self-assessment by April 30. via CyberShield NG', ico:'✅', icoC:'ico-green'}
-];
+function resolveReport(id){
+  var reports=get('reports')||[];
+  reports=reports.map(function(r){return r.id===id?Object.assign({},r,{status:'Resolved'}):r});
+  set('reports',reports);refreshAll();
+}
+function deleteReport(id){
+  if(!confirm('Delete this report?')) return;
+  set('reports',(get('reports')||[]).filter(function(r){return r.id!==id}));refreshAll();
+}
+function clearAllReports(){if(!confirm('Delete ALL fraud reports?')) return;set('reports',[]);refreshAll();}
 
-function doSearch(q){
-  var sr = document.getElementById('searchResults');
-  var al = document.getElementById('alertsList');
-  if(!q.trim()){sr.style.display='none';al.style.display='block';return;}
-  showTab('alerts',null,'go');
-  al.style.display='none';
-  var filtered = allAlerts.filter(function(a){
-    return a.title.toLowerCase().includes(q.toLowerCase())||a.loc.toLowerCase().includes(q.toLowerCase())||a.sev.toLowerCase().includes(q.toLowerCase());
+// ── USERS ──
+function renderUsers(users){
+  var reports=get('reports')||[];
+  var tb=document.getElementById('usersTbl');
+  if(!users.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:20px">No registered users yet</td></tr>';return;}
+  tb.innerHTML=users.slice().reverse().map(function(u){
+    var rCount=reports.filter(function(r){return r.email===u.email}).length;
+    return '<tr><td class="td-main">'+u.name+'</td><td>'+u.email+'</td><td>'+u.joined+'</td><td>'+rCount+'</td><td><button class="action-btn btn-del" onclick="deleteUser(\''+u.email+'\')">Remove</button></td></tr>';
+  }).join('');
+}
+function deleteUser(email){
+  if(!confirm('Remove this user?')) return;
+  set('users',(get('users')||[]).filter(function(u){return u.email!==email}));refreshAll();
+}
+function clearAllUsers(){if(!confirm('Remove ALL users?')) return;set('users',[]);refreshAll();}
+
+// ── ALERTS ──
+function renderAlerts(alerts){
+  var tb=document.getElementById('alertsTbl');
+  if(!alerts.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:20px">No alerts published</td></tr>';return;}
+  tb.innerHTML=alerts.slice().reverse().map(function(a){
+    var sc=a.sev==='Critical'?'badge-red':a.sev==='High'?'badge-amber':a.sev==='Medium'?'badge-blue':'badge-green';
+    return '<tr><td class="td-main" style="max-width:280px">'+a.title+'</td><td><span class="badge '+sc+'">'+a.sev+'</span></td><td>'+a.loc+'</td><td>'+a.cat+'</td><td>'+a.date+'</td><td><button class="action-btn btn-del" onclick="deleteAlert(\''+a.id+'\')">Delete</button></td></tr>';
+  }).join('');
+}
+function addAlert(){
+  var title=document.getElementById('al-title').value.trim();
+  var sev=document.getElementById('al-sev').value;
+  var loc=document.getElementById('al-loc').value.trim()||'Nationwide';
+  var cat=document.getElementById('al-cat').value;
+  if(!title){alert('Please enter an alert title.');return;}
+  var alerts=get('alerts')||[];
+  alerts.push({id:uid(),title:title,sev:sev,loc:loc,cat:cat,date:today()});
+  set('alerts',alerts);
+  document.getElementById('al-title').value='';
+  document.getElementById('al-loc').value='';
+  refreshAll();
+  alert('Alert published successfully!');
+}
+function deleteAlert(id){
+  if(!confirm('Delete this alert?')) return;
+  set('alerts',(get('alerts')||[]).filter(function(a){return a.id!==id}));refreshAll();
+}
+function clearAllAlerts(){if(!confirm('Delete ALL alerts?')) return;set('alerts',[]);refreshAll();}
+
+// ── REVIEWS ──
+function renderReviews(reviews){
+  var el=document.getElementById('allReviews');
+  if(!reviews.length){el.innerHTML='<div class="empty-state">No reviews yet</div>';return;}
+  el.innerHTML=reviews.slice().reverse().map(function(r){
+    return '<div class="review-card"><div class="review-hdr"><span class="review-name">'+r.name+'</span><span class="review-stars">'+'★'.repeat(parseInt(r.stars))+'☆'.repeat(5-parseInt(r.stars))+'</span></div><div class="review-text">'+r.text+'</div><div class="review-meta">'+r.date+' <button class="action-btn btn-del" style="margin-left:10px" onclick="deleteReview(\''+r.id+'\')">Delete</button></div></div>';
+  }).join('');
+}
+function renderRecentReviews(reviews){
+  var el=document.getElementById('recentReviews');
+  var recent=reviews.slice(-3).reverse();
+  if(!recent.length){el.innerHTML='<div class="empty-state">No reviews yet</div>';return;}
+  el.innerHTML=recent.map(function(r){
+    return '<div class="review-card"><div class="review-hdr"><span class="review-name">'+r.name+'</span><span class="review-stars">'+'★'.repeat(parseInt(r.stars))+'</span></div><div class="review-text">'+r.text+'</div><div class="review-meta">'+r.date+'</div></div>';
+  }).join('');
+}
+function addReview(){
+  var name=document.getElementById('rv-name').value.trim();
+  var stars=document.getElementById('rv-stars').value;
+  var text=document.getElementById('rv-text').value.trim();
+  if(!name||!text){alert('Please fill in name and review text.');return;}
+  var reviews=get('reviews')||[];
+  reviews.push({id:uid(),name:name,stars:stars,text:text,date:today()});
+  set('reviews',reviews);
+  document.getElementById('rv-name').value='';
+  document.getElementById('rv-text').value='';
+  refreshAll();
+}
+function deleteReview(id){
+  set('reviews',(get('reviews')||[]).filter(function(r){return r.id!==id}));refreshAll();
+}
+function clearAllReviews(){if(!confirm('Delete ALL reviews?')) return;set('reviews',[]);refreshAll();}
+
+// ── ANALYTICS ──
+function renderAnalytics(reports){
+  // By type
+  var typeEl=document.getElementById('typeStats');
+  var stateEl=document.getElementById('stateStats');
+  if(!reports.length){
+    typeEl.innerHTML='<div class="empty-state">No data yet — submit some fraud reports first</div>';
+    stateEl.innerHTML='<div class="empty-state">No data yet</div>';
+    return;
+  }
+  var types={},states={};
+  reports.forEach(function(r){
+    types[r.type]=(types[r.type]||0)+1;
+    states[r.state]=(states[r.state]||0)+1;
   });
-  if(filtered.length===0){sr.innerHTML='<div class="no-results">No alerts found for "'+q+'"</div>';sr.style.display='block';return;}
-  var html='<div class="section"><div class="sec-hdr"><span class="sec-title">// SEARCH RESULTS ('+filtered.length+')</span></div>';
-  filtered.forEach(function(a){
-    html+='<div class="alert-row"><div class="alert-ico '+a.icoC+'">'+a.ico+'</div><div style="flex:1"><div class="alert-title">'+a.title+'</div><div class="alert-meta"><span>'+a.date+'</span><span>'+a.loc+'</span><span class="badge '+a.sevClass+'">'+a.sev+'</span></div></div><button class="share-btn" onclick="shareAlert(\''+a.msg.replace(/'/g,"\\'")+'\')" >Share 📲</button></div>';
-  });
-  html+='</div>';
-  sr.innerHTML=html;sr.style.display='block';
+  var maxT=Math.max.apply(null,Object.values(types));
+  var maxS=Math.max.apply(null,Object.values(states));
+  typeEl.innerHTML=Object.entries(types).sort(function(a,b){return b[1]-a[1]}).map(function(e){
+    return '<div class="bar-row"><span class="bar-lbl">'+e[0].slice(0,20)+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(e[1]/maxT*100)+'%;background:var(--blue)"></div></div><span class="bar-val">'+e[1]+'</span></div>';
+  }).join('');
+  stateEl.innerHTML=Object.entries(states).sort(function(a,b){return b[1]-a[1]}).map(function(e){
+    return '<div class="bar-row"><span class="bar-lbl">'+e[0]+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(e[1]/maxS*100)+'%;background:var(--purple)"></div></div><span class="bar-val">'+e[1]+'</span></div>';
+  }).join('');
 }
 
-function shareAlert(msg){
-  var url = 'https://wa.me/?text='+encodeURIComponent(msg+'\n\nVisit CyberShield NG to stay protected.');
-  window.open(url,'_blank');
+// ── SETTINGS ──
+function changePassword(){
+  var cur=document.getElementById('pw-current').value;
+  var nw=document.getElementById('pw-new').value;
+  var cf=document.getElementById('pw-confirm').value;
+  var msg=document.getElementById('pw-msg');
+  if(cur!==get('admin_pwd')){msg.style.display='block';msg.style.color='var(--red)';msg.textContent='Current password is incorrect.';return;}
+  if(nw.length<8){msg.style.display='block';msg.style.color='var(--red)';msg.textContent='New password must be at least 8 characters.';return;}
+  if(nw!==cf){msg.style.display='block';msg.style.color='var(--red)';msg.textContent='Passwords do not match.';return;}
+  set('admin_pwd',nw);
+  msg.style.display='block';msg.style.color='var(--green)';msg.textContent='Password updated successfully!';
+  document.getElementById('pw-current').value='';
+  document.getElementById('pw-new').value='';
+  document.getElementById('pw-confirm').value='';
+}
+function changeUsername(){
+  var un=document.getElementById('new-username').value.trim();
+  var msg=document.getElementById('un-msg');
+  if(!un){msg.style.display='block';msg.style.color='var(--red)';msg.textContent='Please enter a new username.';return;}
+  set('admin_user',un);
+  document.getElementById('adminDisplay').textContent=un;
+  msg.style.display='block';msg.style.color='var(--green)';msg.textContent='Username updated to "'+un+'"';
+  document.getElementById('new-username').value='';
+}
+function nukeAll(){
+  ['reports','users','alerts','reviews','admin_user','admin_pwd'].forEach(function(k){localStorage.removeItem('csng_'+k)});
+  init();adminLogout();
 }
 
-function submitReport(){
-  var inst=document.getElementById('r-inst').value.trim();
-  var type=document.getElementById('r-type').value;
-  var state=document.getElementById('r-state').value;
-  var desc=document.getElementById('r-desc').value.trim();
-  if(!inst||!type||!state||!desc){alert('Please fill in the required fields: Institution, Incident Type, State, and Description.');return;}
-  var ref='CSN-2026-'+Math.floor(Math.random()*90000+10000);
-  document.getElementById('ref-id').textContent=ref;
-  document.getElementById('success-box').style.display='block';
-  ['r-inst','r-desc','r-contact','r-amount'].forEach(function(id){document.getElementById(id).value='';});
-  document.getElementById('r-type').value='';
-  document.getElementById('r-state').value='';
-  window.scrollTo(0,0);
-}
+// ── INIT ──
+init();
 
-var botReplies = {
-  'report':  'To report fraud, go to the "Report Fraud" tab and fill in the form. Your report is confidential. You can also call EFCC on 08093322644.',
-  'otp': 'Never share your OTP with anyone — not even your bank. Legitimate institutions will never ask for it. Hang up immediately if someone does.',
-  'bvn': 'Your BVN should be kept private. Never share it on social media, with strangers, or over the phone with unverified callers.',
-  'phishing': 'Phishing involves fake emails, SMS, or websites designed to steal your login details. Always verify URLs and never click suspicious links.',
-  'lost': 'If you have lost money to fraud: 1) Call your bank immediately to freeze your account. 2) Report to EFCC: 08093322644. 3) File a report on this platform.',
-  'contact': 'Emergency contacts: EFCC — 08093322644 | CBN — 07002255226 | NITDA — report.nitda.gov.ng',
-  'password': 'Use a unique, strong password for each account. Mix letters, numbers and symbols. Enable two-factor authentication wherever possible.',
-};
-
-function sendChat(){
-  var inp = document.getElementById('chatInput');
-  var msg = inp.value.trim();
-  if(!msg) return;
-  var msgs = document.getElementById('chatMsgs');
-  msgs.innerHTML += '<div class="chat-msg user">'+msg+'</div>';
-  inp.value='';
-  var reply = 'I understand your concern. For urgent cybersecurity issues, please call the EFCC on 08093322644 or use our Report Fraud tab to file a formal report.';
-  var lc = msg.toLowerCase();
-  Object.keys(botReplies).forEach(function(k){if(lc.includes(k)) reply=botReplies[k];});
-  setTimeout(function(){
-    msgs.innerHTML += '<div class="chat-msg bot">'+reply+'</div>';
-    msgs.scrollTop = msgs.scrollHeight;
-  }, 700);
-  msgs.scrollTop = msgs.scrollHeight;
-}
+// Listen for Enter on login
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape') closeModal();
+});
 </script>
 </body>
 </html>
